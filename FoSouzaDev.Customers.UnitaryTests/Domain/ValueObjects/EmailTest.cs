@@ -1,0 +1,42 @@
+﻿using FluentAssertions;
+using FoSouzaDev.Customers.WebApi.Domain.Exceptions;
+using FoSouzaDev.Customers.WebApi.Domain.ValueObjects;
+
+namespace FoSouzaDev.Customers.UnitaryTests.Domain.ValueObjects
+{
+    public sealed class EmailTest
+    {
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("a")]
+        [InlineData("a.")]
+        [InlineData("#.")]
+        [InlineData("`^.")]
+        [InlineData("a@a")]
+        [InlineData("a@a.")]
+        [InlineData("abc-abc.com")]
+        public void Constructor_InvalidEmail_ThrowValidateException(string? email)
+        {
+            // Act
+            Action act = () => _ = new Email(email!);
+
+            // Assert
+            act.Should().ThrowExactly<ValidateException>().WithMessage("Invalid email.");
+        }
+
+        [Theory]
+        [InlineData("a@a.a")]
+        [InlineData("ab@ab.ab")]
+        [InlineData("a@a.a.a")]
+        [InlineData("ab@ab.ab.ab")]
+        public void Constructor_ValidEmail_NotThrowException(string email)
+        {
+            // Act
+            Email emailVo = new(email);
+
+            // Assert
+            emailVo.Value.Should().Be(email);
+        }
+    }
+}
