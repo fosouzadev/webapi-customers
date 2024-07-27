@@ -24,24 +24,15 @@ public sealed class CustomerService(ICustomerRepository customerRepository) : IC
         return entity.Id;
     }
 
-    public async Task<CustomerDto> GetByIdAsync(string id)
+    public async Task<Customer?> GetByIdAsync(string id)
     {
-        Customer? entity = await this.GetEntityByIdAsync(id);
-
-        return new CustomerDto
-        {
-            Id = entity!.Id,
-            Name = entity.FullName.Name,
-            LastName = entity.FullName.LastName,
-            BirthDate = entity.BirthDate.Date,
-            Email = entity.Email.Value,
-            Notes = entity.Notes
-        };
+        return (await customerRepository.GetByIdAsync(id))
+            ?? throw new NotFoundException(id);
     }
 
     public async Task EditAsync(string id, EditCustomerDto customer)
     {
-        Customer? entity = await this.GetEntityByIdAsync(id);
+        Customer? entity = await this.GetByIdAsync(id);
 
         entity!.FullName = new FullName(customer.Name, customer.LastName);
         entity.Notes = customer.Notes;
@@ -51,11 +42,8 @@ public sealed class CustomerService(ICustomerRepository customerRepository) : IC
 
     public async Task DeleteAsync(string id)
     {
-        _ = await this.GetEntityByIdAsync(id);
+        _ = await this.GetByIdAsync(id);
 
         await customerRepository.DeleteAsync(id);
     }
-
-    private async Task<Customer?> GetEntityByIdAsync(string id) =>
-        (await customerRepository.GetByIdAsync(id)) ?? throw new NotFoundException("Customer not found.", id);
 }
