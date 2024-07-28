@@ -2,7 +2,7 @@
 
 public sealed class EditCustomerDto
 {
-    public required string Name { get; set; }
-    public required string LastName { get; set; }
-    public string? Notes { get; set; }
+    public required string Name { get; init; }
+    public required string LastName { get; init; }
+    public string? Notes { get; init; }
 }

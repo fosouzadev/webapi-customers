@@ -13,7 +13,7 @@ public sealed record BirthDate
         if (age < 18 || age > 100)
             throw new ValidateException("Invalid age.");
 
-        this.Date = date;
+        this.Date = date.Date;
     }
 
     private static int CalculateAge(DateTime birthDate)

@@ -17,8 +17,8 @@ namespace FoSouzaDev.Customers.UnitaryTests.Domain.ValueObjects
             // Act
             BirthDate birthDate = new(date);
 
-            // Act & Assert
-            birthDate.Date.Should().Be(date);
+            // Assert
+            birthDate.Date.Should().Be(date.Date);
         }
 
         [Theory]
@@ -34,6 +34,22 @@ namespace FoSouzaDev.Customers.UnitaryTests.Domain.ValueObjects
 
             // Assert
             act.Should().ThrowExactly<ValidateException>().WithMessage("Invalid age.");
+        }
+
+        [Fact]
+        public void Constructor_ObjectComparison_ShowEquality()
+        {
+            // Arrange
+            DateTime date = DateTime.Now.AddYears(-new Random().Next(18, 101));
+
+            BirthDate birthDate1 = new(date);
+            BirthDate birthDate2 = new(date);
+
+            // Act
+            bool equals = birthDate1 == birthDate2;
+
+            // Assert
+            equals.Should().BeTrue();
         }
     }
 }
