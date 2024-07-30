@@ -1,18 +1,8 @@
 ﻿namespace FoSouzaDev.Customers.WebApi.Responses
 {
-    public sealed class ResponseData<T>
+    public sealed class ResponseData<T>(T? data = default, string? errorMessage = default)
     {
-        public ResponseData(T? data)
-        {
-            this.Data = data;
-        }
-
-        public ResponseData(string errorMessage)
-        {
-            this.ErrorMessage = errorMessage;
-        }
-
-        public T? Data { get; private set; }
-        public string? ErrorMessage { get; private set; }
+        public T? Data { get; private set; } = data;
+        public string? ErrorMessage { get; private set; } = errorMessage;
     }
 }

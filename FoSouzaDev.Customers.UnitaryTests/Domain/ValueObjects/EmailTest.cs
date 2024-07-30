@@ -38,5 +38,21 @@ namespace FoSouzaDev.Customers.UnitaryTests.Domain.ValueObjects
             // Assert
             emailVo.Value.Should().Be(email);
         }
+
+        [Fact]
+        public void Constructor_ObjectComparison_ShowEquality()
+        {
+            // Arrange
+            string email = "test@test.com";
+
+            Email email1 = new(email);
+            Email email2 = new(email);
+
+            // Act
+            bool equals = email1 == email2;
+
+            // Assert
+            equals.Should().BeTrue();
+        }
     }
 }
