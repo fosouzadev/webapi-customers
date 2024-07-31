@@ -107,7 +107,7 @@ namespace FoSouzaDev.Customers.UnitaryTests.Domain.Services
             // Assert
             await act.Should().NotThrowAsync();
 
-            this._customerRepositoryMock.Verify(a => a.EditAsync(It.Is<Customer>(b => 
+            this._customerRepositoryMock.Verify(a => a.ReplaceAsync(It.Is<Customer>(b => 
                 b.Id == expectedCustomer.Id &&
                 b.FullName == expectedCustomer.FullName &&
                 b.BirthDate == expectedCustomer.BirthDate &&

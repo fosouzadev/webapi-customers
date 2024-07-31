@@ -1,41 +1,53 @@
 ﻿using FoSouzaDev.Customers.WebApi.Domain.Entities;
 using FoSouzaDev.Customers.WebApi.Domain.Repositories;
+using FoSouzaDev.Customers.WebApi.Infrastructure.Repositories.Entities;
+using MongoDB.Driver;
 
 namespace FoSouzaDev.Customers.WebApi.Infrastructure.Repositories
 {
-    public sealed class CustomerRepository : ICustomerRepository
+    public sealed class CustomerRepository(IMongoDatabase mongoDatabase) : ICustomerRepository
     {
-        private readonly IList<Customer> _customers;
-
-        public CustomerRepository()
-        {
-            this._customers = [];
-        }
+        private const string CollectionName = "Customers";
+        private readonly IMongoCollection<CustomerEntity> _collection = mongoDatabase.GetCollection<CustomerEntity>(CollectionName);
 
         public async Task AddAsync(Customer customer)
         {
-            customer.Id = $"{Guid.NewGuid()}";
+            CustomerEntity customerEntity = customer;
+            await this._collection.InsertOneAsync(customerEntity);
 
-            this._customers.Add(customer);
+            customer.Id = customerEntity.Id;
         }
 
         public async Task<Customer?> GetByIdAsync(string id)
         {
-            return this._customers.FirstOrDefault(a => a.Id == id);
+            var filter = Builders<CustomerEntity>.Filter.Eq(a => a.Id, id);
+            CustomerEntity? customerEntity = (await this._collection.FindAsync(filter)).FirstOrDefault();
+
+            if (customerEntity == null)
+                return default;
+
+            return (Customer?)customerEntity;
         }
 
-        public async Task EditAsync(Customer customer)
+        public async Task ReplaceAsync(Customer customer)
         {
-            Customer? currentCustomer = await this.GetByIdAsync(customer.Id);
+            CustomerEntity customerEntity = customer;
 
-            currentCustomer = customer;
+            var filter = Builders<CustomerEntity>.Filter.Eq(a => a.Id, customerEntity.Id);
+            ReplaceOneResult result = await this._collection.ReplaceOneAsync(filter, customerEntity);
+
+            if (result.ModifiedCount != 1)
+                throw new InvalidOperationException($"It was not possible to replace the customer with id: {customerEntity.Id}");
         }
 
         public async Task DeleteAsync(string id)
         {
-            Customer? customer = await this.GetByIdAsync(id);
+            var filter = Builders<CustomerEntity>.Filter.Eq(a => a.Id, id);
 
-            this._customers.Remove(customer!);
+            DeleteResult result = await this._collection.DeleteOneAsync(filter);
+
+            if (result.DeletedCount != 1)
+                throw new InvalidOperationException($"It was not possible to delete the customer with id: {id}");
         }
     }
 }

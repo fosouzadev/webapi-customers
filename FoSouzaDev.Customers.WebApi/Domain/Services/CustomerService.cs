@@ -37,7 +37,7 @@ public sealed class CustomerService(ICustomerRepository customerRepository) : IC
         entity!.FullName = new FullName(customer.Name, customer.LastName);
         entity.Notes = customer.Notes;
 
-        await customerRepository.EditAsync(entity);
+        await customerRepository.ReplaceAsync(entity);
     }
 
     public async Task DeleteAsync(string id)

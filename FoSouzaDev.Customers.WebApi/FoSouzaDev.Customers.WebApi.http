@@ -1,6 +1,0 @@
-@FoSouzaDev.Customers.WebApi_HostAddress = http://localhost:5197
-
-GET {{FoSouzaDev.Customers.WebApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

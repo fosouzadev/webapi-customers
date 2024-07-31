@@ -2,6 +2,8 @@
 using FoSouzaDev.Customers.WebApi.Domain.Repositories;
 using FoSouzaDev.Customers.WebApi.Domain.Services;
 using FoSouzaDev.Customers.WebApi.Infrastructure.Repositories;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 
 namespace FoSouzaDev.Customers.WebApi;
 
@@ -11,9 +13,16 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
+        builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection(nameof(MongoDbSettings)));
+
         builder.Services.AddSingleton<ICustomerRepository, CustomerRepository>();
         builder.Services.AddSingleton<ICustomerService, CustomerService>();
+
+        builder.Services.AddSingleton<IMongoDatabase>(provider =>
+        {
+            MongoDbSettings mongoDbSettings = provider.GetRequiredService<IOptions<MongoDbSettings>>().Value;
+            return new MongoClient(mongoDbSettings.ConnectionURI).GetDatabase(mongoDbSettings.DatabaseName);
+        });
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();

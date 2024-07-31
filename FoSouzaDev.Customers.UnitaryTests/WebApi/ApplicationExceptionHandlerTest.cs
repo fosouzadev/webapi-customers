@@ -13,14 +13,11 @@ namespace FoSouzaDev.Customers.UnitaryTests.WebApi
 {
     public sealed class ApplicationExceptionHandlerTest : BaseTest
     {
-        private readonly Mock<ILogger<ApplicationExceptionHandler>> _logger;
-
         private readonly ApplicationExceptionHandler _applicationExceptionHandler;
 
         public ApplicationExceptionHandlerTest()
         {
-            this._logger = new();
-            this._applicationExceptionHandler = new(this._logger.Object);
+            this._applicationExceptionHandler = new(new Mock<ILogger<ApplicationExceptionHandler>>().Object);
         }
 
         [Theory]
