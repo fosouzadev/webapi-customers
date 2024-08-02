@@ -4,7 +4,6 @@ using FoSouzaDev.Customers.WebApi.Controllers;
 using FoSouzaDev.Customers.WebApi.Domain.DataTransferObjects;
 using FoSouzaDev.Customers.WebApi.Domain.Entities;
 using FoSouzaDev.Customers.WebApi.Domain.Services;
-using FoSouzaDev.Customers.WebApi.Domain.ValueObjects;
 using FoSouzaDev.Customers.WebApi.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -48,9 +47,6 @@ namespace FoSouzaDev.Customers.UnitaryTests.WebApi.Controllers
         {
             // Arrange
             string id = base.Fixture.Create<string>();
-
-            base.Fixture.Customize<BirthDate>(a => a.FromFactory(() => new BirthDate(DateTime.Now.AddYears(-18))));
-            base.Fixture.Customize<Email>(a => a.FromFactory(() => new Email("test@test.com")));
             Customer customer = base.Fixture.Create<Customer>();
 
             CustomerDto expectedCustomer = new()

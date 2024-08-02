@@ -16,9 +16,6 @@ namespace FoSouzaDev.Customers.UnitaryTests.Domain.Services
 
         private readonly ICustomerService _customerService;
 
-        private readonly DateTime _validBirthDate = DateTime.Now.AddYears(-18);
-        private readonly string _validEmail = "test@test.com";
-
         public CustomerServiceTest()
         {
             this._customerRepositoryMock = new();
@@ -30,8 +27,8 @@ namespace FoSouzaDev.Customers.UnitaryTests.Domain.Services
         {
             // Arrange
             AddCustomerDto customer = base.Fixture.Build<AddCustomerDto>()
-                .With(a => a.BirthDate, this._validBirthDate)
-                .With(a => a.Email, this._validEmail)
+                .With(a => a.BirthDate, ValidBirthDate)
+                .With(a => a.Email, ValidEmail)
                 .Create();
 
             Customer entity = customer;
@@ -127,8 +124,6 @@ namespace FoSouzaDev.Customers.UnitaryTests.Domain.Services
 
         private Customer MockGetById(string id)
         {
-            base.Fixture.Customize<BirthDate>(a => a.FromFactory(() => new BirthDate(this._validBirthDate)));
-            base.Fixture.Customize<Email>(a => a.FromFactory(() => new Email(this._validEmail)));
             Customer customer = base.Fixture.Create<Customer>();
 
             this._customerRepositoryMock.Setup(a => a.GetByIdAsync(id)).ReturnsAsync(customer);

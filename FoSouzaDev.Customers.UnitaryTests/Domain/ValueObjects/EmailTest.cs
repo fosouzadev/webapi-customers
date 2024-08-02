@@ -4,7 +4,7 @@ using FoSouzaDev.Customers.WebApi.Domain.ValueObjects;
 
 namespace FoSouzaDev.Customers.UnitaryTests.Domain.ValueObjects
 {
-    public sealed class EmailTest
+    public sealed class EmailTest : BaseTest
     {
         [Theory]
         [InlineData(null)]
@@ -43,7 +43,7 @@ namespace FoSouzaDev.Customers.UnitaryTests.Domain.ValueObjects
         public void Constructor_ObjectComparison_ShowEquality()
         {
             // Arrange
-            string email = "test@test.com";
+            string email = ValidEmail;
 
             Email email1 = new(email);
             Email email2 = new(email);

@@ -11,17 +11,9 @@ namespace FoSouzaDev.Customers.UnitaryTests.Infrastructure.Repositories.Mappings
     {
         public CustomerEntityMapTest()
         {
-            DateTime validBirthDate = DateTime.Now.AddYears(-18).Date;
-            string validEmail = "test@test.com";
-
-            Fixture.Customize<Customer>(a => a
-                .With(b => b.BirthDate, new BirthDate(validBirthDate))
-                .With(b => b.Email, new Email(validEmail))
-            );
-
-            Fixture.Customize<CustomerEntity>(a => a
-                .With(b => b.BirthDate, validBirthDate)
-                .With(b => b.Email, validEmail)
+            base.Fixture.Customize<CustomerEntity>(a => a
+                .With(b => b.BirthDate, ValidBirthDate)
+                .With(b => b.Email, ValidEmail)
             );
         }
 
@@ -29,7 +21,7 @@ namespace FoSouzaDev.Customers.UnitaryTests.Infrastructure.Repositories.Mappings
         public void CustomerToCustomerEntity_Success_ReturnExpectedObject()
         {
             // Arrange
-            Customer customer = Fixture.Create<Customer>();
+            Customer customer = base.Fixture.Create<Customer>();
             CustomerEntity expectedCustomerEntity = new()
             {
                 Id = customer.Id,
@@ -51,7 +43,7 @@ namespace FoSouzaDev.Customers.UnitaryTests.Infrastructure.Repositories.Mappings
         public void CustomerEntityToCustomer_Success_ReturnExpectedObject()
         {
             // Arrange
-            CustomerEntity customerEntity = Fixture.Create<CustomerEntity>();
+            CustomerEntity customerEntity = base.Fixture.Create<CustomerEntity>();
             Customer expectedCustomer = new()
             {
                 Id = customerEntity.Id,

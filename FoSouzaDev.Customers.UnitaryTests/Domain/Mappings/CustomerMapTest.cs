@@ -11,22 +11,14 @@ namespace FoSouzaDev.Customers.UnitaryTests.Domain.Mappings
     {
         public CustomerMapTest()
         {
-            DateTime validBirthDate = DateTime.Now.AddYears(-18).Date;
-            string validEmail = "test@test.com";
-
             base.Fixture.Customize<CustomerDto>(a => a
-                .With(b => b.BirthDate, validBirthDate)
-                .With(b => b.Email, validEmail)
+                .With(b => b.BirthDate, ValidBirthDate)
+                .With(b => b.Email, ValidEmail)
             );
 
             base.Fixture.Customize<AddCustomerDto>(a => a
-                .With(b => b.BirthDate, validBirthDate)
-                .With(b => b.Email, validEmail)
-            );
-
-            base.Fixture.Customize<Customer>(a => a
-                .With(b => b.BirthDate, new BirthDate(validBirthDate))
-                .With(b => b.Email, new Email(validEmail))
+                .With(b => b.BirthDate, ValidBirthDate)
+                .With(b => b.Email, ValidEmail)
             );
         }
 
