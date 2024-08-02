@@ -4,15 +4,8 @@ using Microsoft.AspNetCore.Diagnostics;
 
 namespace FoSouzaDev.Customers.WebApi
 {
-    public sealed class ApplicationExceptionHandler : IExceptionHandler
+    public sealed class ApplicationExceptionHandler(ILogger<ApplicationExceptionHandler> logger) : IExceptionHandler
     {
-        private readonly ILogger<ApplicationExceptionHandler> _logger;
-
-        public ApplicationExceptionHandler(ILogger<ApplicationExceptionHandler> logger)
-        {
-            this._logger = logger;
-        }
-
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
             object response;
@@ -33,7 +26,7 @@ namespace FoSouzaDev.Customers.WebApi
                     break;
             }
 
-            this._logger.LogError(exception, message: exception.Message, response);
+            logger.LogError(exception, message: exception.Message, response);
 
             await httpContext.Response.WriteAsJsonAsync(response, cancellationToken);
 

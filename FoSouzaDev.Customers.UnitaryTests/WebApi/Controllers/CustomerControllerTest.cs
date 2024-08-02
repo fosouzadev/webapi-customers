@@ -6,6 +6,7 @@ using FoSouzaDev.Customers.WebApi.Domain.Entities;
 using FoSouzaDev.Customers.WebApi.Domain.Services;
 using FoSouzaDev.Customers.WebApi.Domain.ValueObjects;
 using FoSouzaDev.Customers.WebApi.Responses;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
 
@@ -33,10 +34,10 @@ namespace FoSouzaDev.Customers.UnitaryTests.WebApi.Controllers
             this._customerService.Setup(a => a.AddAsync(request)).ReturnsAsync(expectedId);
 
             // Act
-            var response = await this._customerController.AddAsync(request);
+            IResult response = await this._customerController.AddAsync(request);
 
             // Assert
-            response.Result.Should().BeOfType<Created<ResponseData<string>>>()
+            response.Should().BeOfType<Created<ResponseData<string>>>()
                 .Subject.Value.Should().Match<ResponseData<string>>(a =>
                     a.Data == expectedId &&
                     a.ErrorMessage == null);
@@ -65,10 +66,10 @@ namespace FoSouzaDev.Customers.UnitaryTests.WebApi.Controllers
             this._customerService.Setup(a => a.GetByIdAsync(id)).ReturnsAsync(customer);
 
             // Act
-            var response = await this._customerController.GetByIdAsync(id);
+            IResult response = await this._customerController.GetByIdAsync(id);
 
             // Assert
-            ResponseData<CustomerDto>? responseData = response.Result.Should().BeOfType<Ok<ResponseData<CustomerDto>>>().Subject.Value;
+            ResponseData<CustomerDto>? responseData = response.Should().BeOfType<Ok<ResponseData<CustomerDto>>>().Subject.Value;
             responseData!.ErrorMessage.Should().BeNull();
             responseData.Data.Should().BeEquivalentTo(expectedCustomer);
         }
@@ -81,10 +82,10 @@ namespace FoSouzaDev.Customers.UnitaryTests.WebApi.Controllers
             EditCustomerDto request = base.Fixture.Create<EditCustomerDto>();
 
             // Act
-            var response = await this._customerController.EditAsync(id, request);
+            IResult response = await this._customerController.EditAsync(id, request);
 
             // Assert
-            response.Result.Should().BeOfType<NoContent>();
+            response.Should().BeOfType<NoContent>();
         }
 
         [Fact]
@@ -94,10 +95,10 @@ namespace FoSouzaDev.Customers.UnitaryTests.WebApi.Controllers
             string id = base.Fixture.Create<string>();
 
             // Act
-            var response = await this._customerController.DeleteAsync(id);
+            IResult response = await this._customerController.DeleteAsync(id);
 
             // Assert
-            response.Result.Should().BeOfType<NoContent>();
+            response.Should().BeOfType<NoContent>();
         }
     }
 }

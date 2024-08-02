@@ -2,7 +2,6 @@
 using FoSouzaDev.Customers.WebApi.Domain.Entities;
 using FoSouzaDev.Customers.WebApi.Domain.Services;
 using FoSouzaDev.Customers.WebApi.Responses;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
@@ -14,14 +13,20 @@ namespace FoSouzaDev.Customers.WebApi.Controllers;
 public sealed class CustomerController(ICustomerService customerService) : ControllerBase
 {
     [HttpPost]
-    public async Task<Results<BadRequest<ResponseData<string>>, Created<ResponseData<string>>>> AddAsync(AddCustomerDto customer)
+    [ProducesResponseType<ResponseData<string>>(StatusCodes.Status201Created)]
+    [ProducesResponseType<ResponseData<string>>(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType<ResponseData<string>>(StatusCodes.Status500InternalServerError)]
+    public async Task<IResult> AddAsync(AddCustomerDto customer)
     {
         string id = await customerService.AddAsync(customer);
         return TypedResults.Created($"api/v1/customer/{id}", new ResponseData<string>(data: id));
     }
 
     [HttpGet("{id}")]
-    public async Task<Results<NotFound, Ok<ResponseData<CustomerDto>>>> GetByIdAsync([FromRoute] string id)
+    [ProducesResponseType<ResponseData<string>>(StatusCodes.Status404NotFound)]
+    [ProducesResponseType<ResponseData<string>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ResponseData<string>>(StatusCodes.Status500InternalServerError)]
+    public async Task<IResult> GetByIdAsync([FromRoute] string id)
     {
         Customer? customer = await customerService.GetByIdAsync(id);
 
@@ -37,14 +42,21 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     }
 
     [HttpPatch("{id}")]
-    public async Task<Results<BadRequest<ResponseData<string>>, NotFound, NoContent>> EditAsync([FromRoute] string id, [FromBody] EditCustomerDto customer)
+    [ProducesResponseType<ResponseData<string>>(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType<ResponseData<string>>(StatusCodes.Status404NotFound)]
+    [ProducesResponseType<ResponseData<string>>(StatusCodes.Status204NoContent)]
+    [ProducesResponseType<ResponseData<string>>(StatusCodes.Status500InternalServerError)]
+    public async Task<IResult> EditAsync([FromRoute] string id, [FromBody] EditCustomerDto customer)
     {
         await customerService.EditAsync(id, customer);
         return TypedResults.NoContent();
     }
 
     [HttpDelete("{id}")]
-    public async Task<Results<NotFound, NoContent>> DeleteAsync([FromRoute] string id)
+    [ProducesResponseType<ResponseData<string>>(StatusCodes.Status404NotFound)]
+    [ProducesResponseType<ResponseData<string>>(StatusCodes.Status204NoContent)]
+    [ProducesResponseType<ResponseData<string>>(StatusCodes.Status500InternalServerError)]
+    public async Task<IResult> DeleteAsync([FromRoute] string id)
     {
         await customerService.DeleteAsync(id);
         return TypedResults.NoContent();
