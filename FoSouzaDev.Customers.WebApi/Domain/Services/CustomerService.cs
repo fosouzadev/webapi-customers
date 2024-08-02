@@ -10,25 +10,14 @@ public sealed class CustomerService(ICustomerRepository customerRepository) : IC
 {
     public async Task<string> AddAsync(AddCustomerDto customer)
     {
-        Customer entity = new()
-        {
-            Id = string.Empty,
-            FullName = new FullName(customer.Name, customer.LastName),
-            BirthDate = new BirthDate(customer.BirthDate),
-            Email = new Email(customer.Email),
-            Notes = customer.Notes
-        };
-
+        Customer entity = customer;
         await customerRepository.AddAsync(entity);
 
         return entity.Id;
     }
 
-    public async Task<Customer?> GetByIdAsync(string id)
-    {
-        return (await customerRepository.GetByIdAsync(id))
-            ?? throw new NotFoundException(id);
-    }
+    public async Task<Customer?> GetByIdAsync(string id) =>
+        (await customerRepository.GetByIdAsync(id)) ?? throw new NotFoundException(id);
 
     public async Task EditAsync(string id, EditCustomerDto customer)
     {

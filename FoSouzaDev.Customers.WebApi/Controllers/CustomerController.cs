@@ -29,16 +29,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     public async Task<IResult> GetByIdAsync([FromRoute] string id)
     {
         Customer? customer = await customerService.GetByIdAsync(id);
-
-        return TypedResults.Ok(new ResponseData<CustomerDto>(new CustomerDto 
-        {
-            Id = customer!.Id,
-            Name = customer.FullName.Name,
-            LastName = customer.FullName.LastName,
-            BirthDate = customer.BirthDate.Date,
-            Email = customer.Email.Value,
-            Notes = customer.Notes
-        }));
+        return TypedResults.Ok(new ResponseData<CustomerDto>((CustomerDto)customer!));
     }
 
     [HttpPatch("{id}")]

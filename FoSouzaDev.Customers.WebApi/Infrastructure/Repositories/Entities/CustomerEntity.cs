@@ -20,7 +20,6 @@ namespace FoSouzaDev.Customers.WebApi.Infrastructure.Repositories.Entities
         public required string Email { get; set; }
 
         [BsonIgnoreIfNull]
-        [BsonIgnoreIfDefault]
         public string? Notes { get; set; }
 
         public static implicit operator CustomerEntity(Customer customer) =>

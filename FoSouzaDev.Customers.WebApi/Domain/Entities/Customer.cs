@@ -1,4 +1,6 @@
-﻿using FoSouzaDev.Customers.WebApi.Domain.ValueObjects;
+﻿using FoSouzaDev.Customers.WebApi.Domain.DataTransferObjects;
+using FoSouzaDev.Customers.WebApi.Domain.Mappings;
+using FoSouzaDev.Customers.WebApi.Domain.ValueObjects;
 
 namespace FoSouzaDev.Customers.WebApi.Domain.Entities
 {
@@ -9,5 +11,14 @@ namespace FoSouzaDev.Customers.WebApi.Domain.Entities
         public required BirthDate BirthDate { get; init; }
         public required Email Email { get; init; }
         public string? Notes { get; set; }
+
+        public static implicit operator Customer(CustomerDto customerDto) =>
+            CustomerMap.CustomerDtoToCustomer(customerDto);
+
+        public static implicit operator CustomerDto(Customer customer) =>
+            CustomerMap.CustomerToCustomerDto(customer);
+
+        public static implicit operator Customer(AddCustomerDto addCustomerDto) =>
+            CustomerMap.AddCustomerDtoToCustomer(addCustomerDto);
     }
 }

@@ -43,7 +43,6 @@ namespace FoSouzaDev.Customers.WebApi.Infrastructure.Repositories
         public async Task DeleteAsync(string id)
         {
             var filter = Builders<CustomerEntity>.Filter.Eq(a => a.Id, id);
-
             DeleteResult result = await this._collection.DeleteOneAsync(filter);
 
             if (result.DeletedCount != 1)
