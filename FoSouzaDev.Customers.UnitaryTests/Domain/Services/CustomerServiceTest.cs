@@ -34,14 +34,7 @@ namespace FoSouzaDev.Customers.UnitaryTests.Domain.Services
                 .With(a => a.Email, this._validEmail)
                 .Create();
 
-            Customer entity = new()
-            {
-                Id = string.Empty,
-                FullName = new FullName(customer.Name, customer.LastName),
-                BirthDate = new BirthDate(customer.BirthDate),
-                Email = new Email(customer.Email),
-                Notes = customer.Notes
-            };
+            Customer entity = customer;
 
             this._customerRepositoryMock
                 .Setup(a => a.AddAsync(It.Is<Customer>(b =>
