@@ -1,6 +1,6 @@
-﻿using FoSouzaDev.Customers.WebApi.Domain.Entities;
+﻿using FoSouzaDev.Customers.Domain.Entities;
 
-namespace FoSouzaDev.Customers.WebApi.Domain.Repositories;
+namespace FoSouzaDev.Customers.Domain.Repositories;
 
 public interface ICustomerRepository
 {

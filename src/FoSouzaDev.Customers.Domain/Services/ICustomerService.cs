@@ -1,7 +1,7 @@
-﻿using FoSouzaDev.Customers.WebApi.Domain.DataTransferObjects;
-using FoSouzaDev.Customers.WebApi.Domain.Entities;
+﻿using FoSouzaDev.Customers.Domain.DataTransferObjects;
+using FoSouzaDev.Customers.Domain.Entities;
 
-namespace FoSouzaDev.Customers.WebApi.Domain.Services;
+namespace FoSouzaDev.Customers.Domain.Services;
 
 public interface ICustomerService
 {

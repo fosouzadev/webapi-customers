@@ -1,10 +1,10 @@
-﻿using FoSouzaDev.Customers.WebApi.Domain.DataTransferObjects;
-using FoSouzaDev.Customers.WebApi.Domain.Entities;
-using FoSouzaDev.Customers.WebApi.Domain.Exceptions;
-using FoSouzaDev.Customers.WebApi.Domain.Repositories;
-using FoSouzaDev.Customers.WebApi.Domain.ValueObjects;
+﻿using FoSouzaDev.Customers.Domain.DataTransferObjects;
+using FoSouzaDev.Customers.Domain.Entities;
+using FoSouzaDev.Customers.Domain.Exceptions;
+using FoSouzaDev.Customers.Domain.Repositories;
+using FoSouzaDev.Customers.Domain.ValueObjects;
 
-namespace FoSouzaDev.Customers.WebApi.Domain.Services;
+namespace FoSouzaDev.Customers.Domain.Services;
 
 public sealed class CustomerService(ICustomerRepository customerRepository) : ICustomerService
 {

@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using FoSouzaDev.Customers.WebApi.Domain.Exceptions;
-using FoSouzaDev.Customers.WebApi.Domain.ValueObjects;
+using FoSouzaDev.Customers.Domain.Exceptions;
+using FoSouzaDev.Customers.Domain.ValueObjects;
 
 namespace FoSouzaDev.Customers.UnitaryTests.Domain.ValueObjects
 {

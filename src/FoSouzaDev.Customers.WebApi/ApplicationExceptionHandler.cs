@@ -1,4 +1,4 @@
-﻿using FoSouzaDev.Customers.WebApi.Domain.Exceptions;
+﻿using FoSouzaDev.Customers.Domain.Exceptions;
 using FoSouzaDev.Customers.WebApi.Responses;
 using Microsoft.AspNetCore.Diagnostics;
 

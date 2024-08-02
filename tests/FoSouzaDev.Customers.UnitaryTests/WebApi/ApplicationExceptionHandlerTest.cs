@@ -1,7 +1,7 @@
 ﻿using AutoFixture;
 using FluentAssertions;
 using FoSouzaDev.Customers.WebApi;
-using FoSouzaDev.Customers.WebApi.Domain.Exceptions;
+using FoSouzaDev.Customers.Domain.Exceptions;
 using HttpContextMoq;
 using HttpContextMoq.Extensions;
 using Microsoft.Extensions.Logging;

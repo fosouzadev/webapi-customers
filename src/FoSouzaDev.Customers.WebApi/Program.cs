@@ -1,7 +1,7 @@
 
-using FoSouzaDev.Customers.WebApi.Domain.Repositories;
-using FoSouzaDev.Customers.WebApi.Domain.Services;
-using FoSouzaDev.Customers.WebApi.Infrastructure.Repositories;
+using FoSouzaDev.Customers.Domain.Repositories;
+using FoSouzaDev.Customers.Domain.Services;
+using FoSouzaDev.Customers.Infrastructure.Repositories;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 

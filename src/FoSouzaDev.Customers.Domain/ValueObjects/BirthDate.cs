@@ -1,6 +1,6 @@
-﻿using FoSouzaDev.Customers.WebApi.Domain.Exceptions;
+﻿using FoSouzaDev.Customers.Domain.Exceptions;
 
-namespace FoSouzaDev.Customers.WebApi.Domain.ValueObjects;
+namespace FoSouzaDev.Customers.Domain.ValueObjects;
 
 public sealed record BirthDate
 {

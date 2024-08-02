@@ -1,9 +1,9 @@
-﻿using FoSouzaDev.Customers.WebApi.Domain.Entities;
-using FoSouzaDev.Customers.WebApi.Domain.Repositories;
-using FoSouzaDev.Customers.WebApi.Infrastructure.Repositories.Entities;
+﻿using FoSouzaDev.Customers.Domain.Entities;
+using FoSouzaDev.Customers.Domain.Repositories;
+using FoSouzaDev.Customers.Infrastructure.Repositories.Entities;
 using MongoDB.Driver;
 
-namespace FoSouzaDev.Customers.WebApi.Infrastructure.Repositories
+namespace FoSouzaDev.Customers.Infrastructure.Repositories
 {
     public sealed class CustomerRepository(IMongoDatabase mongoDatabase) : ICustomerRepository
     {

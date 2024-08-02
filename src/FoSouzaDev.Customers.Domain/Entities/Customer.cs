@@ -1,8 +1,8 @@
-﻿using FoSouzaDev.Customers.WebApi.Domain.DataTransferObjects;
-using FoSouzaDev.Customers.WebApi.Domain.Mappings;
-using FoSouzaDev.Customers.WebApi.Domain.ValueObjects;
+﻿using FoSouzaDev.Customers.Domain.DataTransferObjects;
+using FoSouzaDev.Customers.Domain.Mappings;
+using FoSouzaDev.Customers.Domain.ValueObjects;
 
-namespace FoSouzaDev.Customers.WebApi.Domain.Entities
+namespace FoSouzaDev.Customers.Domain.Entities
 {
     public sealed class Customer
     {

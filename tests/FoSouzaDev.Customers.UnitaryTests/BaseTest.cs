@@ -1,5 +1,5 @@
 ﻿using AutoFixture;
-using FoSouzaDev.Customers.WebApi.Domain.ValueObjects;
+using FoSouzaDev.Customers.Domain.ValueObjects;
 
 namespace FoSouzaDev.Customers.UnitaryTests
 {

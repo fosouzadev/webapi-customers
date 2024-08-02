@@ -1,11 +1,11 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using FoSouzaDev.Customers.WebApi.Domain.DataTransferObjects;
-using FoSouzaDev.Customers.WebApi.Domain.Entities;
-using FoSouzaDev.Customers.WebApi.Domain.Exceptions;
-using FoSouzaDev.Customers.WebApi.Domain.Repositories;
-using FoSouzaDev.Customers.WebApi.Domain.Services;
-using FoSouzaDev.Customers.WebApi.Domain.ValueObjects;
+using FoSouzaDev.Customers.Domain.DataTransferObjects;
+using FoSouzaDev.Customers.Domain.Entities;
+using FoSouzaDev.Customers.Domain.Exceptions;
+using FoSouzaDev.Customers.Domain.Repositories;
+using FoSouzaDev.Customers.Domain.Services;
+using FoSouzaDev.Customers.Domain.ValueObjects;
 using Moq;
 
 namespace FoSouzaDev.Customers.UnitaryTests.Domain.Services

@@ -1,6 +1,6 @@
-﻿using FoSouzaDev.Customers.WebApi.Domain.DataTransferObjects;
-using FoSouzaDev.Customers.WebApi.Domain.Entities;
-using FoSouzaDev.Customers.WebApi.Domain.Services;
+﻿using FoSouzaDev.Customers.Domain.DataTransferObjects;
+using FoSouzaDev.Customers.Domain.Entities;
+using FoSouzaDev.Customers.Domain.Services;
 using FoSouzaDev.Customers.WebApi.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;

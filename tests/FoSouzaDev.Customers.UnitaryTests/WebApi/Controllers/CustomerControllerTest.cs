@@ -1,9 +1,9 @@
 ﻿using AutoFixture;
 using FluentAssertions;
 using FoSouzaDev.Customers.WebApi.Controllers;
-using FoSouzaDev.Customers.WebApi.Domain.DataTransferObjects;
-using FoSouzaDev.Customers.WebApi.Domain.Entities;
-using FoSouzaDev.Customers.WebApi.Domain.Services;
+using FoSouzaDev.Customers.Domain.DataTransferObjects;
+using FoSouzaDev.Customers.Domain.Entities;
+using FoSouzaDev.Customers.Domain.Services;
 using FoSouzaDev.Customers.WebApi.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;

@@ -1,4 +1,4 @@
-﻿namespace FoSouzaDev.Customers.WebApi.Domain.Exceptions
+﻿namespace FoSouzaDev.Customers.Domain.Exceptions
 {
     public sealed class NotFoundException(string id) : Exception(message: "Not found.")
     {

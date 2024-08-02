@@ -1,9 +1,9 @@
-﻿using FoSouzaDev.Customers.WebApi.Domain.Entities;
-using FoSouzaDev.Customers.WebApi.Infrastructure.Repositories.Mappings;
+﻿using FoSouzaDev.Customers.Domain.Entities;
+using FoSouzaDev.Customers.Infrastructure.Repositories.Mappings;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace FoSouzaDev.Customers.WebApi.Infrastructure.Repositories.Entities
+namespace FoSouzaDev.Customers.Infrastructure.Repositories.Entities
 {
     public sealed class CustomerEntity
     {

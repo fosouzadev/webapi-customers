@@ -1,6 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using FoSouzaDev.Customers.WebApi.Domain.Exceptions;
+using FoSouzaDev.Customers.Domain.Exceptions;
 
 namespace FoSouzaDev.Customers.UnitaryTests.Domain.Exceptions
 {

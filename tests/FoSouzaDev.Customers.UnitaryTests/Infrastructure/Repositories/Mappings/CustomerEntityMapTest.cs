@@ -1,9 +1,9 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using FoSouzaDev.Customers.WebApi.Domain.Entities;
-using FoSouzaDev.Customers.WebApi.Domain.ValueObjects;
-using FoSouzaDev.Customers.WebApi.Infrastructure.Repositories.Entities;
-using FoSouzaDev.Customers.WebApi.Infrastructure.Repositories.Mappings;
+using FoSouzaDev.Customers.Domain.Entities;
+using FoSouzaDev.Customers.Domain.ValueObjects;
+using FoSouzaDev.Customers.Infrastructure.Repositories.Entities;
+using FoSouzaDev.Customers.Infrastructure.Repositories.Mappings;
 
 namespace FoSouzaDev.Customers.UnitaryTests.Infrastructure.Repositories.Mappings
 {
