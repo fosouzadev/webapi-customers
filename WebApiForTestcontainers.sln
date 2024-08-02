@@ -3,14 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoSouzaDev.Customers.WebApi", "FoSouzaDev.Customers.WebApi\FoSouzaDev.Customers.WebApi.csproj", "{B6F56522-76D4-4E4B-9EBE-F7BBEA8595DF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoSouzaDev.Customers.UnitaryTests", "FoSouzaDev.Customers.UnitaryTests\FoSouzaDev.Customers.UnitaryTests.csproj", "{6D059005-6964-4582-B536-2C9AF6DC1B4A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EAA4BDC9-3A34-43F1-925B-533D3FA6EE9D}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A182E221-6BEA-48F2-866B-C81AB1220CBF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{92E42B2B-BA95-4B39-8F3B-CD3C655714C6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoSouzaDev.Customers.WebApi", "src\FoSouzaDev.Customers.WebApi\FoSouzaDev.Customers.WebApi.csproj", "{037A2362-EE49-4B85-956A-127DE10E9290}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoSouzaDev.Customers.UnitaryTests", "tests\FoSouzaDev.Customers.UnitaryTests\FoSouzaDev.Customers.UnitaryTests.csproj", "{A6C4B98C-1CB1-4448-B466-FCD5A807AB12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,16 +22,20 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B6F56522-76D4-4E4B-9EBE-F7BBEA8595DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B6F56522-76D4-4E4B-9EBE-F7BBEA8595DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B6F56522-76D4-4E4B-9EBE-F7BBEA8595DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B6F56522-76D4-4E4B-9EBE-F7BBEA8595DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D059005-6964-4582-B536-2C9AF6DC1B4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D059005-6964-4582-B536-2C9AF6DC1B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D059005-6964-4582-B536-2C9AF6DC1B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D059005-6964-4582-B536-2C9AF6DC1B4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{037A2362-EE49-4B85-956A-127DE10E9290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{037A2362-EE49-4B85-956A-127DE10E9290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{037A2362-EE49-4B85-956A-127DE10E9290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{037A2362-EE49-4B85-956A-127DE10E9290}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6C4B98C-1CB1-4448-B466-FCD5A807AB12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6C4B98C-1CB1-4448-B466-FCD5A807AB12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6C4B98C-1CB1-4448-B466-FCD5A807AB12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6C4B98C-1CB1-4448-B466-FCD5A807AB12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{037A2362-EE49-4B85-956A-127DE10E9290} = {A182E221-6BEA-48F2-866B-C81AB1220CBF}
+		{A6C4B98C-1CB1-4448-B466-FCD5A807AB12} = {92E42B2B-BA95-4B39-8F3B-CD3C655714C6}
 	EndGlobalSection
 EndGlobal

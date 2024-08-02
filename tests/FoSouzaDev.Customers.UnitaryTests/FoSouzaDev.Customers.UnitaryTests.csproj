@@ -29,11 +29,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Xunit" />
+    <ProjectReference Include="..\..\src\FoSouzaDev.Customers.WebApi\FoSouzaDev.Customers.WebApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FoSouzaDev.Customers.WebApi\FoSouzaDev.Customers.WebApi.csproj" />
+    <Using Include="Xunit" />
   </ItemGroup>
 
 </Project>
