@@ -14,4 +14,8 @@
     <ProjectReference Include="..\FoSouzaDev.Customers.Domain\FoSouzaDev.Customers.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo  Include="FoSouzaDev.Customers.UnitaryTests" />
+  </ItemGroup>
+
 </Project>

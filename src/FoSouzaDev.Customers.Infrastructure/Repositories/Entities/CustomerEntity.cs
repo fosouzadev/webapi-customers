@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace FoSouzaDev.Customers.Infrastructure.Repositories.Entities
 {
-    public sealed class CustomerEntity
+    internal sealed class CustomerEntity
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
