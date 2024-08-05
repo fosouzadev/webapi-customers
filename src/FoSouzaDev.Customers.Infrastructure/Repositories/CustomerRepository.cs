@@ -23,9 +23,6 @@ namespace FoSouzaDev.Customers.Infrastructure.Repositories
             var filter = Builders<CustomerEntity>.Filter.Eq(a => a.Id, id);
             CustomerEntity? customerEntity = (await this._collection.FindAsync(filter)).FirstOrDefault();
 
-            if (customerEntity == null)
-                return default;
-
             return (Customer?)customerEntity;
         }
 

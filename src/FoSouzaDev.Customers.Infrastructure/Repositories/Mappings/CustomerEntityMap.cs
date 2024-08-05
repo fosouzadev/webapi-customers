@@ -16,13 +16,19 @@ namespace FoSouzaDev.Customers.Infrastructure.Repositories.Mappings
             Notes = customer.Notes
         };
 
-        public static Customer CustomerEntityToCustomer(CustomerEntity customerEntity) => new()
+        public static Customer? CustomerEntityToCustomer(CustomerEntity? customerEntity)
         {
-            Id = customerEntity.Id,
-            FullName = new FullName(customerEntity.Name, customerEntity.LastName),
-            BirthDate = new BirthDate(customerEntity.BirthDate.Date),
-            Email = new Email(customerEntity.Email),
-            Notes = customerEntity.Notes
-        };
+            if (customerEntity == null)
+                return default;
+
+            return new()
+            {
+                Id = customerEntity.Id,
+                FullName = new FullName(customerEntity.Name, customerEntity.LastName),
+                BirthDate = new BirthDate(customerEntity.BirthDate.Date),
+                Email = new Email(customerEntity.Email),
+                Notes = customerEntity.Notes
+            };
+        }
     }
 }

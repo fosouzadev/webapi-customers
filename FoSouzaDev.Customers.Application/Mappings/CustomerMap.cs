@@ -1,8 +1,8 @@
-﻿using FoSouzaDev.Customers.Domain.DataTransferObjects;
+﻿using FoSouzaDev.Customers.Application.DataTransferObjects;
 using FoSouzaDev.Customers.Domain.Entities;
 using FoSouzaDev.Customers.Domain.ValueObjects;
 
-namespace FoSouzaDev.Customers.Domain.Mappings
+namespace FoSouzaDev.Customers.Application.Mappings
 {
     public static class CustomerMap
     {

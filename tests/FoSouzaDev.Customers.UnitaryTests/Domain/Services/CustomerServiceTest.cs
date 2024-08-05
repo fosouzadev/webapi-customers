@@ -1,6 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using FoSouzaDev.Customers.Domain.DataTransferObjects;
+using FoSouzaDev.Customers.Application.DataTransferObjects;
 using FoSouzaDev.Customers.Domain.Entities;
 using FoSouzaDev.Customers.Domain.Exceptions;
 using FoSouzaDev.Customers.Domain.Repositories;

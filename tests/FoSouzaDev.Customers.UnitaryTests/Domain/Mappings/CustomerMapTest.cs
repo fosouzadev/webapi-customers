@@ -1,8 +1,8 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using FoSouzaDev.Customers.Domain.DataTransferObjects;
+using FoSouzaDev.Customers.Application.DataTransferObjects;
+using FoSouzaDev.Customers.Application.Mappings;
 using FoSouzaDev.Customers.Domain.Entities;
-using FoSouzaDev.Customers.Domain.Mappings;
 using FoSouzaDev.Customers.Domain.ValueObjects;
 
 namespace FoSouzaDev.Customers.UnitaryTests.Domain.Mappings

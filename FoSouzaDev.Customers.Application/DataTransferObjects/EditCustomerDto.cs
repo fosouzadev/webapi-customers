@@ -1,4 +1,4 @@
-﻿namespace FoSouzaDev.Customers.Domain.DataTransferObjects;
+﻿namespace FoSouzaDev.Customers.Application.DataTransferObjects;
 
 public sealed class EditCustomerDto
 {

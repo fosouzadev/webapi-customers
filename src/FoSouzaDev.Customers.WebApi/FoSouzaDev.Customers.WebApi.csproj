@@ -12,8 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FoSouzaDev.Customers.Domain\FoSouzaDev.Customers.Domain.csproj" />
-    <ProjectReference Include="..\FoSouzaDev.Customers.Infrastructure\FoSouzaDev.Customers.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\FoSouzaDev.Customers.Application\FoSouzaDev.Customers.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,5 @@
-﻿using FoSouzaDev.Customers.Domain.DataTransferObjects;
-using FoSouzaDev.Customers.Domain.Entities;
-using FoSouzaDev.Customers.Domain.Services;
+﻿using FoSouzaDev.Customers.Application.DataTransferObjects;
+using FoSouzaDev.Customers.Application.Services;
 using FoSouzaDev.Customers.WebApi.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
@@ -10,7 +9,7 @@ namespace FoSouzaDev.Customers.WebApi.Controllers;
 [ApiController]
 [Consumes(MediaTypeNames.Application.Json)]
 [Route("api/v1/customer")]
-public sealed class CustomerController(ICustomerService customerService) : ControllerBase
+public sealed class CustomerController(ICustomerApplicationService customerApplicationService) : ControllerBase
 {
     [HttpPost]
     [ProducesResponseType<ResponseData<string>>(StatusCodes.Status201Created)]
@@ -18,7 +17,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     [ProducesResponseType<ResponseData<string>>(StatusCodes.Status500InternalServerError)]
     public async Task<IResult> AddAsync(AddCustomerDto customer)
     {
-        string id = await customerService.AddAsync(customer);
+        string id = await customerApplicationService.AddAsync(customer);
         return TypedResults.Created($"api/v1/customer/{id}", new ResponseData<string>(data: id));
     }
 
@@ -28,8 +27,8 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     [ProducesResponseType<ResponseData<string>>(StatusCodes.Status500InternalServerError)]
     public async Task<IResult> GetByIdAsync([FromRoute] string id)
     {
-        Customer? customer = await customerService.GetByIdAsync(id);
-        return TypedResults.Ok(new ResponseData<CustomerDto>((CustomerDto)customer!));
+        CustomerDto? customer = await customerApplicationService.GetByIdAsync(id);
+        return TypedResults.Ok(new ResponseData<CustomerDto>(customer!));
     }
 
     [HttpPatch("{id}")]
@@ -39,7 +38,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     [ProducesResponseType<ResponseData<string>>(StatusCodes.Status500InternalServerError)]
     public async Task<IResult> EditAsync([FromRoute] string id, [FromBody] EditCustomerDto customer)
     {
-        await customerService.EditAsync(id, customer);
+        await customerApplicationService.EditAsync(id, customer);
         return TypedResults.NoContent();
     }
 
@@ -49,7 +48,7 @@ public sealed class CustomerController(ICustomerService customerService) : Contr
     [ProducesResponseType<ResponseData<string>>(StatusCodes.Status500InternalServerError)]
     public async Task<IResult> DeleteAsync([FromRoute] string id)
     {
-        await customerService.DeleteAsync(id);
+        await customerApplicationService.DeleteAsync(id);
         return TypedResults.NoContent();
     }
 }
