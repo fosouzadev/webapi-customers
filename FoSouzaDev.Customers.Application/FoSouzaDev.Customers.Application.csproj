@@ -18,4 +18,8 @@
     <ProjectReference Include="..\src\FoSouzaDev.Customers.Infrastructure\FoSouzaDev.Customers.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo  Include="FoSouzaDev.Customers.UnitaryTests" />
+  </ItemGroup>
+
 </Project>

@@ -2,21 +2,20 @@
 using FluentAssertions;
 using FoSouzaDev.Customers.Domain.Exceptions;
 
-namespace FoSouzaDev.Customers.UnitaryTests.Domain.Exceptions
+namespace FoSouzaDev.Customers.UnitaryTests.Domain.Exceptions;
+
+public sealed class ValidateExceptionTest : BaseTest
 {
-    public sealed class ValidateExceptionTest : BaseTest
+    [Fact]
+    public void Constructor_Success_CreateAnException()
     {
-        [Fact]
-        public void Constructor_Success_CreateAnException()
-        {
-            // Arrange
-            string expectedMessage = base.Fixture.Create<string>();
+        // Arrange
+        string expectedMessage = base.Fixture.Create<string>();
 
-            // Act
-            ValidateException ex = new(expectedMessage);
+        // Act
+        ValidateException ex = new(expectedMessage);
 
-            // Assert
-            ex.Message.Should().Be(expectedMessage);
-        }
+        // Assert
+        ex.Message.Should().Be(expectedMessage);
     }
 }

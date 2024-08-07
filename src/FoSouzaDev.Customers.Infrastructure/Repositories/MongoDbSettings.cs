@@ -1,8 +1,7 @@
-﻿namespace FoSouzaDev.Customers.Infrastructure.Repositories
+﻿namespace FoSouzaDev.Customers.Infrastructure.Repositories;
+
+internal sealed class MongoDbSettings
 {
-    public sealed class MongoDbSettings
-    {
-        public string? ConnectionURI { get; init; }
-        public string? DatabaseName { get; init; }
-    }
+    public string? ConnectionURI { get; init; }
+    public string? DatabaseName { get; init; }
 }

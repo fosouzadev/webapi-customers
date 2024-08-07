@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo  Include="FoSouzaDev.Customers.Application" />
+    <InternalsVisibleTo  Include="FoSouzaDev.Customers.UnitaryTests" />
+  </ItemGroup>
+  
 </Project>

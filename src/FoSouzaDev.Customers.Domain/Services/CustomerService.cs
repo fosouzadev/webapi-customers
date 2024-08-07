@@ -5,12 +5,12 @@ using FoSouzaDev.Customers.Domain.ValueObjects;
 
 namespace FoSouzaDev.Customers.Domain.Services;
 
-public sealed class CustomerService(ICustomerRepository customerRepository) : ICustomerService
+internal sealed class CustomerService(ICustomerRepository customerRepository) : ICustomerService
 {
     public async Task AddAsync(Customer customer) =>
         await customerRepository.AddAsync(customer);
 
-    public async Task<Customer?> GetByIdAsync(string id) =>
+    public async Task<Customer> GetByIdAsync(string id) =>
         (await customerRepository.GetByIdAsync(id)) ?? throw new NotFoundException(id);
 
     public async Task EditAsync(string id, FullName fullName, string? notes)

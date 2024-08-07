@@ -3,7 +3,7 @@ using FoSouzaDev.Customers.Domain.Entities;
 
 namespace FoSouzaDev.Customers.Application.DataTransferObjects;
 
-public sealed class AddCustomerDto
+public sealed record AddCustomerDto
 {
     public required string Name { get; init; }
     public required string LastName { get; init; }

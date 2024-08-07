@@ -1,100 +1,88 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using FoSouzaDev.Customers.Application.DataTransferObjects;
+using FoSouzaDev.Customers.Application.Services;
 using FoSouzaDev.Customers.WebApi.Controllers;
-using FoSouzaDev.Customers.Domain.DataTransferObjects;
-using FoSouzaDev.Customers.Domain.Entities;
-using FoSouzaDev.Customers.Domain.Services;
 using FoSouzaDev.Customers.WebApi.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
 
-namespace FoSouzaDev.Customers.UnitaryTests.WebApi.Controllers
+namespace FoSouzaDev.Customers.UnitaryTests.WebApi.Controllers;
+
+public sealed class CustomerControllerTest : BaseTest
 {
-    public sealed class CustomerControllerTest : BaseTest
+    private readonly Mock<ICustomerApplicationService> _customerApplicationService;
+
+    private readonly CustomerController _customerController;
+
+    public CustomerControllerTest()
     {
-        private readonly Mock<ICustomerService> _customerService;
+        this._customerApplicationService = new();
+        this._customerController = new(this._customerApplicationService.Object);
+    }
 
-        private readonly CustomerController _customerController;
+    [Fact]
+    public async Task AddAsync_Success_ReturnHttpResponseCreatedWithExpectedData()
+    {
+        // Arrange
+        AddCustomerDto request = base.Fixture.Create<AddCustomerDto>();
+        string expectedId = base.Fixture.Create<string>();
 
-        public CustomerControllerTest()
-        {
-            this._customerService = new();
-            this._customerController = new(this._customerService.Object);
-        }
+        this._customerApplicationService.Setup(a => a.AddAsync(request)).ReturnsAsync(expectedId);
 
-        [Fact]
-        public async Task AddAsync_Success_ReturnHttpResponseCreatedWithExpectedData()
-        {
-            // Arrange
-            AddCustomerDto request = base.Fixture.Create<AddCustomerDto>();
-            string expectedId = base.Fixture.Create<string>();
+        // Act
+        IResult response = await this._customerController.AddAsync(request);
 
-            this._customerService.Setup(a => a.AddAsync(request)).ReturnsAsync(expectedId);
+        // Assert
+        response.Should().BeOfType<Created<ResponseData<string>>>()
+            .Subject.Value.Should().Match<ResponseData<string>>(a =>
+                a.Data == expectedId &&
+                a.ErrorMessage == null);
+    }
 
-            // Act
-            IResult response = await this._customerController.AddAsync(request);
+    [Fact]
+    public async Task GetByIdAsync_Success_ReturnHttpResponseOkWithExpectedData()
+    {
+        // Arrange
+        string id = base.Fixture.Create<string>();
+        CustomerDto expectedCustomer = base.Fixture.Create<CustomerDto>();
 
-            // Assert
-            response.Should().BeOfType<Created<ResponseData<string>>>()
-                .Subject.Value.Should().Match<ResponseData<string>>(a =>
-                    a.Data == expectedId &&
-                    a.ErrorMessage == null);
-        }
+        this._customerApplicationService.Setup(a => a.GetByIdAsync(id)).ReturnsAsync(expectedCustomer);
 
-        [Fact]
-        public async Task GetByIdAsync_Success_ReturnHttpResponseOkWithExpectedData()
-        {
-            // Arrange
-            string id = base.Fixture.Create<string>();
-            Customer customer = base.Fixture.Create<Customer>();
+        // Act
+        IResult response = await this._customerController.GetByIdAsync(id);
 
-            CustomerDto expectedCustomer = new()
-            {
-                Id = customer!.Id,
-                Name = customer.FullName.Name,
-                LastName = customer.FullName.LastName,
-                BirthDate = customer.BirthDate.Date,
-                Email = customer.Email.Value,
-                Notes = customer.Notes
-            };
+        // Assert
+        ResponseData<CustomerDto>? responseData = response.Should().BeOfType<Ok<ResponseData<CustomerDto>>>().Subject.Value;
+        responseData!.ErrorMessage.Should().BeNull();
+        responseData.Data.Should().BeEquivalentTo(expectedCustomer);
+    }
 
-            this._customerService.Setup(a => a.GetByIdAsync(id)).ReturnsAsync(customer);
+    [Fact]
+    public async Task EditAsync_Success_ReturnHttpResponseNoContent()
+    {
+        // Arrange
+        string id = base.Fixture.Create<string>();
+        EditCustomerDto request = base.Fixture.Create<EditCustomerDto>();
 
-            // Act
-            IResult response = await this._customerController.GetByIdAsync(id);
+        // Act
+        IResult response = await this._customerController.EditAsync(id, request);
 
-            // Assert
-            ResponseData<CustomerDto>? responseData = response.Should().BeOfType<Ok<ResponseData<CustomerDto>>>().Subject.Value;
-            responseData!.ErrorMessage.Should().BeNull();
-            responseData.Data.Should().BeEquivalentTo(expectedCustomer);
-        }
+        // Assert
+        response.Should().BeOfType<NoContent>();
+    }
 
-        [Fact]
-        public async Task EditAsync_Success_ReturnHttpResponseNoContent()
-        {
-            // Arrange
-            string id = base.Fixture.Create<string>();
-            EditCustomerDto request = base.Fixture.Create<EditCustomerDto>();
+    [Fact]
+    public async Task DeleteAsync_Success_ReturnHttpResponseNoContent()
+    {
+        // Arrange
+        string id = base.Fixture.Create<string>();
 
-            // Act
-            IResult response = await this._customerController.EditAsync(id, request);
+        // Act
+        IResult response = await this._customerController.DeleteAsync(id);
 
-            // Assert
-            response.Should().BeOfType<NoContent>();
-        }
-
-        [Fact]
-        public async Task DeleteAsync_Success_ReturnHttpResponseNoContent()
-        {
-            // Arrange
-            string id = base.Fixture.Create<string>();
-
-            // Act
-            IResult response = await this._customerController.DeleteAsync(id);
-
-            // Assert
-            response.Should().BeOfType<NoContent>();
-        }
+        // Assert
+        response.Should().BeOfType<NoContent>();
     }
 }
