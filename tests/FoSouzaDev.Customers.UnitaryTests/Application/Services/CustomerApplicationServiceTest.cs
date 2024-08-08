@@ -58,7 +58,7 @@ public sealed class CustomerApplicationServiceTest : BaseTest
         this._customerServiceMock.Setup(a => a.GetByIdAsync(id)).ReturnsAsync(expectedCustomer);
 
         // Act
-        CustomerDto? customer = await this._customerApplicationService.GetByIdAsync(id);
+        CustomerDto customer = await this._customerApplicationService.GetByIdAsync(id);
 
         // Assert
         customer.Should().Be(expectedCustomer);

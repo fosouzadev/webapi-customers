@@ -22,15 +22,7 @@ public sealed class CustomerEntityMapTest : BaseTest
     {
         // Arrange
         Customer customer = base.Fixture.Create<Customer>();
-        CustomerEntity expectedCustomerEntity = new()
-        {
-            Id = customer.Id,
-            Name = customer.FullName.Name,
-            LastName = customer.FullName.LastName,
-            BirthDate = customer.BirthDate.Date,
-            Email = customer.Email.Value,
-            Notes = customer.Notes
-        };
+        CustomerEntity expectedCustomerEntity = customer;
 
         // Act
         CustomerEntity customerEntity = CustomerEntityMap.CustomerToCustomerEntity(customer);
@@ -44,14 +36,7 @@ public sealed class CustomerEntityMapTest : BaseTest
     {
         // Arrange
         CustomerEntity customerEntity = base.Fixture.Create<CustomerEntity>();
-        Customer expectedCustomer = new()
-        {
-            Id = customerEntity.Id,
-            FullName = new FullName(customerEntity.Name, customerEntity.LastName),
-            BirthDate = new BirthDate(customerEntity.BirthDate.Date),
-            Email = new Email(customerEntity.Email),
-            Notes = customerEntity.Notes
-        };
+        Customer expectedCustomer = customerEntity!;
 
         // Act
         Customer customer = CustomerEntityMap.CustomerEntityToCustomer(customerEntity)!;
