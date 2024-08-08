@@ -25,6 +25,6 @@ internal sealed class CustomerEntity
     public static implicit operator CustomerEntity(Customer customer) =>
         CustomerEntityMap.CustomerToCustomerEntity(customer);
 
-    public static implicit operator Customer(CustomerEntity customerEntity) =>
+    public static implicit operator Customer?(CustomerEntity? customerEntity) =>
         CustomerEntityMap.CustomerEntityToCustomer(customerEntity);
 }

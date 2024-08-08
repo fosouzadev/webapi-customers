@@ -13,7 +13,7 @@ public sealed record CustomerDto
     public string? Notes { get; init; }
 
     public static implicit operator Customer(CustomerDto customerDto) =>
-            CustomerMap.CustomerDtoToCustomer(customerDto);
+        CustomerMap.CustomerDtoToCustomer(customerDto);
 
     public static implicit operator CustomerDto(Customer customer) =>
         CustomerMap.CustomerToCustomerDto(customer);
