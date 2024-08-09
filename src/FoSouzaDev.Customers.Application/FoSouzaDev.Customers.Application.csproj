@@ -14,12 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\FoSouzaDev.Customers.Domain\FoSouzaDev.Customers.Domain.csproj" />
-    <ProjectReference Include="..\src\FoSouzaDev.Customers.Infrastructure\FoSouzaDev.Customers.Infrastructure.csproj" />
+    <InternalsVisibleTo Include="FoSouzaDev.Customers.UnitaryTests" />
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo  Include="FoSouzaDev.Customers.UnitaryTests" />
+    <ProjectReference Include="..\FoSouzaDev.Customers.Domain\FoSouzaDev.Customers.Domain.csproj" />
+    <ProjectReference Include="..\FoSouzaDev.Customers.Infrastructure\FoSouzaDev.Customers.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -31,12 +31,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Xunit" />
+    <ProjectReference Include="..\..\src\FoSouzaDev.Customers.Application\FoSouzaDev.Customers.Application.csproj" />
+    <ProjectReference Include="..\..\src\FoSouzaDev.Customers.Infrastructure\FoSouzaDev.Customers.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FoSouzaDev.Customers.Application\FoSouzaDev.Customers.Application.csproj" />
-    <ProjectReference Include="..\src\FoSouzaDev.Customers.Infrastructure\FoSouzaDev.Customers.Infrastructure.csproj" />
+    <Using Include="Xunit" />
   </ItemGroup>
 
 </Project>
