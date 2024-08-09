@@ -1,8 +1,11 @@
 ﻿using FluentAssertions;
+using FoSouzaDev.Customers.Application.Services;
 using FoSouzaDev.Customers.Application.Settings;
 using FoSouzaDev.Customers.Domain.Repositories;
+using FoSouzaDev.Customers.Domain.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 
 namespace FoSouzaDev.Customers.IntegrationTests.Application.Settings;
 
@@ -28,5 +31,9 @@ public sealed class ApplicationSettingsTest(MongoDbFixture mongoDbFixture) : ICl
 
         // Assert
         serviceProvider.GetService<ICustomerRepository>().Should().NotBeNull();
+        serviceProvider.GetService<ICustomerService>().Should().NotBeNull();
+        serviceProvider.GetService<ICustomerApplicationService>().Should().NotBeNull();
+
+        serviceProvider.GetService<IMongoDatabase>().Should().NotBeNull();
     }
 }
