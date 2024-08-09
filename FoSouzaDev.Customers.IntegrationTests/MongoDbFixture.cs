@@ -4,7 +4,7 @@ namespace FoSouzaDev.Customers.IntegrationTests;
 
 public sealed class MongoDbFixture : IAsyncLifetime
 {
-    private readonly MongoDbContainer _mongoDbContainer = new MongoDbBuilder().Build();
+    private readonly MongoDbContainer _mongoDbContainer = new MongoDbBuilder().WithImage("mongo:latest").Build();
 
     public MongoDbContainer MongoDbContainer => _mongoDbContainer;
 
