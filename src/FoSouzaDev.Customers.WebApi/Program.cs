@@ -2,7 +2,7 @@ using FoSouzaDev.Customers.Application.Settings;
 
 namespace FoSouzaDev.Customers.WebApi;
 
-internal class Program
+public class Program
 {
     public static void Main(string[] args)
     {
