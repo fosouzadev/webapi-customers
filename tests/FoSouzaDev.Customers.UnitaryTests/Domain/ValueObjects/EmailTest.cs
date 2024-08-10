@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Exceptions;
 using FoSouzaDev.Customers.Domain.ValueObjects;
 

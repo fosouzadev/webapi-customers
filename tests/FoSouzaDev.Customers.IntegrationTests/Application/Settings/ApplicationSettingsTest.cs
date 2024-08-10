@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using FoSouzaDev.Customers.Application.Services;
 using FoSouzaDev.Customers.Application.Settings;
+using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Repositories;
 using FoSouzaDev.Customers.Domain.Services;
 using Microsoft.Extensions.Configuration;

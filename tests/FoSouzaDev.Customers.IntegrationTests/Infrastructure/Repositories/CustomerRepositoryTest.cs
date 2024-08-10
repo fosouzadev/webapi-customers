@@ -1,122 +1,114 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Entities;
 using FoSouzaDev.Customers.Domain.Repositories;
 using FoSouzaDev.Customers.Domain.ValueObjects;
 using FoSouzaDev.Customers.Infrastructure.Repositories;
-using FoSouzaDev.Customers.Infrastructure.Repositories.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace FoSouzaDev.Customers.IntegrationTests.Infrastructure.Repositories
+namespace FoSouzaDev.Customers.IntegrationTests.Infrastructure.Repositories;
+
+public sealed class CustomerRepositoryTest : BaseTest, IClassFixture<MongoDbFixture>
 {
-    public sealed class CustomerRepositoryTest : IClassFixture<MongoDbFixture>
+    private readonly ICustomerRepository _customerRepository;
+
+    public CustomerRepositoryTest(MongoDbFixture mongoDbFixture)
     {
-        private readonly Fixture _fixture = new();
+        IMongoDatabase mongoDatabase = new MongoClient(mongoDbFixture.MongoDbContainer.GetConnectionString()).GetDatabase("testDb");
+        this._customerRepository = new CustomerRepository(mongoDatabase);
+}
 
-        private readonly ICustomerRepository _customerRepository;
+    [Fact]
+    public async Task AddAsync_Success_SetNewId()
+    {
+        // Arrange
+        Customer expectedCustomer  = base.Fixture.Create<Customer>();
+        expectedCustomer.Id = string.Empty;
 
-        public CustomerRepositoryTest(MongoDbFixture mongoDbFixture)
-        {
-            this._fixture = new();
+        // Act
+        await this._customerRepository.AddAsync(expectedCustomer);
 
-            this._fixture.Customize<BirthDate>(a => a.FromFactory(() => new BirthDate(DateTime.Now.AddYears(-18).Date)));
-            this._fixture.Customize<Email>(a => a.FromFactory(() => new Email("test@test.com")));
-
-            IMongoDatabase mongoDatabase = new MongoClient(mongoDbFixture.MongoDbContainer.GetConnectionString()).GetDatabase("testDb");
-            this._customerRepository = new CustomerRepository(mongoDatabase);
+        // Assert
+        Customer? customer = await this._customerRepository.GetByIdAsync(expectedCustomer.Id);
+        customer.Should().BeEquivalentTo(expectedCustomer);
     }
 
-        [Fact]
-        public async Task AddAsync_Success_SetNewId()
-        {
-            // Arrange
-            Customer expectedCustomer  = this._fixture.Create<Customer>();
-            expectedCustomer.Id = string.Empty;
+    [Fact]
+    public async Task GetByIdAsync_NotFound_ReturnNull()
+    {
+        // Arrange
+        string id = $"{new ObjectId()}";
 
-            // Act
-            await this._customerRepository.AddAsync(expectedCustomer);
+        // Act
+        Customer? customer = await this._customerRepository.GetByIdAsync(id);
 
-            // Assert
-            Customer? customer = await this._customerRepository.GetByIdAsync(expectedCustomer.Id);
-            customer.Should().BeEquivalentTo(expectedCustomer);
-        }
+        // Assert
+        customer.Should().BeNull();
+    }
 
-        [Fact]
-        public async Task GetByIdAsync_NotFound_ReturnNull()
-        {
-            // Arrange
-            string id = $"{new ObjectId()}";
+    [Fact]
+    public async Task ReplaceAsync_Success_ReplacedObject()
+    {
+        // Arrange
+        Customer expectedCustomer = base.Fixture.Create<Customer>();
+        expectedCustomer.Id = string.Empty;
 
-            // Act
-            Customer? customer = await this._customerRepository.GetByIdAsync(id);
+        await this._customerRepository.AddAsync(expectedCustomer);
 
-            // Assert
-            customer.Should().BeNull();
-        }
+        expectedCustomer.FullName = base.Fixture.Create<FullName>();
+        expectedCustomer.Notes = base.Fixture.Create<string>();
 
-        [Fact]
-        public async Task ReplaceAsync_Success_ReplacedObject()
-        {
-            // Arrange
-            Customer expectedCustomer = this._fixture.Create<Customer>();
-            expectedCustomer.Id = string.Empty;
+        // Act
+        await this._customerRepository.ReplaceAsync(expectedCustomer);
 
-            await this._customerRepository.AddAsync(expectedCustomer);
+        // Assert
+        Customer? customer = await this._customerRepository.GetByIdAsync(expectedCustomer.Id);
+        customer.Should().BeEquivalentTo(expectedCustomer);
+    }
 
-            expectedCustomer.FullName = this._fixture.Create<FullName>();
-            expectedCustomer.Notes = this._fixture.Create<string>();
+    [Fact]
+    public async Task ReplaceAsync_NotFound_ThrowInvalidOperationException()
+    {
+        // Arrange
+        Customer expectedCustomer = base.Fixture.Create<Customer>();
+        expectedCustomer.Id = $"{new ObjectId()}";
 
-            // Act
-            await this._customerRepository.ReplaceAsync(expectedCustomer);
+        // Act
+        Func<Task> act = () => this._customerRepository.ReplaceAsync(expectedCustomer);
 
-            // Assert
-            Customer? customer = await this._customerRepository.GetByIdAsync(expectedCustomer.Id);
-            customer.Should().BeEquivalentTo(expectedCustomer);
-        }
+        // Assert
+        await act.Should().ThrowExactlyAsync<InvalidOperationException>($"It was not possible to replace the customer with id: {expectedCustomer.Id}");
+    }
 
-        [Fact]
-        public async Task ReplaceAsync_NotFound_ThrowInvalidOperationException()
-        {
-            // Arrange
-            Customer expectedCustomer = this._fixture.Create<Customer>();
-            expectedCustomer.Id = $"{new ObjectId()}";
+    [Fact]
+    public async Task DeleteAsync_Success_DeletedObject()
+    {
+        // Arrange
+        Customer expectedCustomer = base.Fixture.Create<Customer>();
+        expectedCustomer.Id = string.Empty;
 
-            // Act
-            Func<Task> act = () => this._customerRepository.ReplaceAsync(expectedCustomer);
+        await this._customerRepository.AddAsync(expectedCustomer);
 
-            // Assert
-            await act.Should().ThrowExactlyAsync<InvalidOperationException>($"It was not possible to replace the customer with id: {expectedCustomer.Id}");
-        }
+        // Act
+        await this._customerRepository.DeleteAsync(expectedCustomer.Id);
 
-        [Fact]
-        public async Task DeleteAsync_Success_DeletedObject()
-        {
-            // Arrange
-            Customer expectedCustomer = this._fixture.Create<Customer>();
-            expectedCustomer.Id = string.Empty;
+        // Assert
+        Customer? customer = await this._customerRepository.GetByIdAsync(expectedCustomer.Id);
+        customer.Should().BeNull();
+    }
 
-            await this._customerRepository.AddAsync(expectedCustomer);
+    [Fact]
+    public async Task DeleteAsync_NotFound_ThrowInvalidOperationException()
+    {
+        // Arrange
+        string id = $"{new ObjectId()}";
 
-            // Act
-            await this._customerRepository.DeleteAsync(expectedCustomer.Id);
+        // Act
+        Func<Task> act = () => this._customerRepository.DeleteAsync(id);
 
-            // Assert
-            Customer? customer = await this._customerRepository.GetByIdAsync(expectedCustomer.Id);
-            customer.Should().BeNull();
-        }
-
-        [Fact]
-        public async Task DeleteAsync_NotFound_ThrowInvalidOperationException()
-        {
-            // Arrange
-            string id = $"{new ObjectId()}";
-
-            // Act
-            Func<Task> act = () => this._customerRepository.DeleteAsync(id);
-
-            // Assert
-            await act.Should().ThrowExactlyAsync<InvalidOperationException>($"It was not possible to delete the customer with id: {id}");
-        }
+        // Assert
+        await act.Should().ThrowExactlyAsync<InvalidOperationException>($"It was not possible to delete the customer with id: {id}");
     }
 }

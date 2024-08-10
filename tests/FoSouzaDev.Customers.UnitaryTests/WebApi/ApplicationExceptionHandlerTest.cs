@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System.Net;
 using System.Text;
+using FoSouzaDev.Customers.CommonTests;
 
 namespace FoSouzaDev.Customers.UnitaryTests.WebApi;
 

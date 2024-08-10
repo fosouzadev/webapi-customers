@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoSouzaDev.Customers.Integr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoSouzaDev.Customers.Application", "src\FoSouzaDev.Customers.Application\FoSouzaDev.Customers.Application.csproj", "{B0FEBE30-8BB2-4021-8BE0-AC20ED867D52}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoSouzaDev.Customers.CommonTests", "tests\FoSouzaDev.Customers.CommonTests\FoSouzaDev.Customers.CommonTests.csproj", "{12E45FF9-6C71-43CC-9FBF-2DF5FE8FE462}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{B0FEBE30-8BB2-4021-8BE0-AC20ED867D52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0FEBE30-8BB2-4021-8BE0-AC20ED867D52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0FEBE30-8BB2-4021-8BE0-AC20ED867D52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12E45FF9-6C71-43CC-9FBF-2DF5FE8FE462}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12E45FF9-6C71-43CC-9FBF-2DF5FE8FE462}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12E45FF9-6C71-43CC-9FBF-2DF5FE8FE462}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12E45FF9-6C71-43CC-9FBF-2DF5FE8FE462}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{CD46952D-26D8-4119-85E9-2369B3D50706} = {92E42B2B-BA95-4B39-8F3B-CD3C655714C6}
 		{5E27A68A-C35E-4D42-81CD-1ACF6EB808E7} = {92E42B2B-BA95-4B39-8F3B-CD3C655714C6}
 		{B0FEBE30-8BB2-4021-8BE0-AC20ED867D52} = {A182E221-6BEA-48F2-866B-C81AB1220CBF}
+		{12E45FF9-6C71-43CC-9FBF-2DF5FE8FE462} = {92E42B2B-BA95-4B39-8F3B-CD3C655714C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6EB52355-16F8-4FCB-9902-1466F0682D29}

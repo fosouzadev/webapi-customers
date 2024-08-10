@@ -1,7 +1,7 @@
 ﻿using AutoFixture;
 using FoSouzaDev.Customers.Domain.ValueObjects;
 
-namespace FoSouzaDev.Customers.UnitaryTests;
+namespace FoSouzaDev.Customers.CommonTests;
 
 public abstract class BaseTest
 {

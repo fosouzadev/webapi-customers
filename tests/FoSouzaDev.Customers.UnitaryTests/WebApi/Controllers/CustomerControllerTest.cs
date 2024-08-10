@@ -2,6 +2,7 @@
 using FluentAssertions;
 using FoSouzaDev.Customers.Application.DataTransferObjects;
 using FoSouzaDev.Customers.Application.Services;
+using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.WebApi.Controllers;
 using FoSouzaDev.Customers.WebApi.Responses;
 using Microsoft.AspNetCore.Http;

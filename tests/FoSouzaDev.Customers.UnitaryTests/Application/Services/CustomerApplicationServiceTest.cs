@@ -2,6 +2,7 @@
 using FluentAssertions;
 using FoSouzaDev.Customers.Application.DataTransferObjects;
 using FoSouzaDev.Customers.Application.Services;
+using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Entities;
 using FoSouzaDev.Customers.Domain.Services;
 using FoSouzaDev.Customers.Domain.ValueObjects;

@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.WebApi.Responses;
 
 namespace FoSouzaDev.Customers.UnitaryTests.WebApi.Responses;

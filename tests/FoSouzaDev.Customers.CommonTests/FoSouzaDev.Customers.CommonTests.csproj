@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -11,15 +11,15 @@
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.7" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="xunit" Version="2.5.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+    <PackageReference Include="Testcontainers.MongoDb" Version="3.9.0" />
+    <PackageReference Include="AutoFixture" Version="4.18.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\FoSouzaDev.Customers.WebApi\FoSouzaDev.Customers.WebApi.csproj" />
-    <ProjectReference Include="..\FoSouzaDev.Customers.CommonTests\FoSouzaDev.Customers.CommonTests.csproj" />
+    <ProjectReference Include="..\..\src\FoSouzaDev.Customers.Domain\FoSouzaDev.Customers.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

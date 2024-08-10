@@ -1,7 +1,7 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Entities;
-using FoSouzaDev.Customers.Domain.ValueObjects;
 using FoSouzaDev.Customers.Infrastructure.Repositories.Entities;
 using FoSouzaDev.Customers.Infrastructure.Repositories.Mappings;
 

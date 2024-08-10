@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Exceptions;
 
 namespace FoSouzaDev.Customers.UnitaryTests.Domain.Exceptions;

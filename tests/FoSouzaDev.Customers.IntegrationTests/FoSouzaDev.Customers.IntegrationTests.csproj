@@ -10,7 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoFixture" Version="4.18.1" />
     <PackageReference Include="coverlet.collector" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,7 +20,6 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
-    <PackageReference Include="Testcontainers.MongoDb" Version="3.9.0" />
     <PackageReference Include="xunit" Version="2.9.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
       <PrivateAssets>all</PrivateAssets>
@@ -32,6 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\FoSouzaDev.Customers.Application\FoSouzaDev.Customers.Application.csproj" />
     <ProjectReference Include="..\..\src\FoSouzaDev.Customers.Infrastructure\FoSouzaDev.Customers.Infrastructure.csproj" />
+    <ProjectReference Include="..\FoSouzaDev.Customers.CommonTests\FoSouzaDev.Customers.CommonTests.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
 ﻿using Testcontainers.MongoDb;
 
-namespace FoSouzaDev.Customers.IntegrationTests;
+namespace FoSouzaDev.Customers.CommonTests;
 
 public sealed class MongoDbFixture : IAsyncLifetime
 {
