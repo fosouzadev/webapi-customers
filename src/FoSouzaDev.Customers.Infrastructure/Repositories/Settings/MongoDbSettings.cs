@@ -1,4 +1,4 @@
-﻿namespace FoSouzaDev.Customers.Infrastructure.Repositories;
+﻿namespace FoSouzaDev.Customers.Infrastructure.Repositories.Settings;
 
 internal sealed class MongoDbSettings
 {

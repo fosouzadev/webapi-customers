@@ -7,6 +7,7 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        builder.Logging.ClearProviders().AddConsole();
 
         builder.Services.AddApplicationServices(builder.Configuration);
 
@@ -15,6 +16,8 @@ public class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddExceptionHandler<ApplicationExceptionHandler>();
         builder.Services.AddProblemDetails();
+
+        builder.Services.AddHealthChecks().AddApplicationHealthChecks();
 
         var app = builder.Build();
 
@@ -27,6 +30,8 @@ public class Program
         app.UseAuthorization();
         app.MapControllers();
         app.UseExceptionHandler();
+
+        app.UseHealthChecks("/api/health-check");
 
         app.Run();
     }
