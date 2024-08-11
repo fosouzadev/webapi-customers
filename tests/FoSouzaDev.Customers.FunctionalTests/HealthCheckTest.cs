@@ -4,7 +4,8 @@ using System.Net;
 
 namespace FoSouzaDev.Customers.FunctionalTests;
 
-public class HealthCheckTest : IClassFixture<MongoDbFixture>
+[Collection("MongoDbFixture")]
+public class HealthCheckTest
 {
     private readonly HttpClient _httpClient;
 

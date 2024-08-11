@@ -10,7 +10,8 @@ using MongoDB.Driver;
 
 namespace FoSouzaDev.Customers.IntegrationTests.Infrastructure.Repositories;
 
-public sealed class CustomerRepositoryTest : BaseTest, IClassFixture<MongoDbFixture>
+[Collection("MongoDbFixture")]
+public sealed class CustomerRepositoryTest : BaseTest
 {
     private readonly ICustomerRepository _customerRepository;
 

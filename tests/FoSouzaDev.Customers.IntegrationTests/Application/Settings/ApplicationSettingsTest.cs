@@ -10,7 +10,8 @@ using MongoDB.Driver;
 
 namespace FoSouzaDev.Customers.IntegrationTests.Application.Settings;
 
-public sealed class ApplicationSettingsTest(MongoDbFixture mongoDbFixture) : IClassFixture<MongoDbFixture>
+[Collection("MongoDbFixture")]
+public sealed class ApplicationSettingsTest(MongoDbFixture mongoDbFixture)
 {
     [Fact]
     public void AddApplicationServices_Success_DependenciesConfigured()
