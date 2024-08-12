@@ -11,7 +11,10 @@ public class HealthCheckTest
 
     public HealthCheckTest(MongoDbFixture mongoDbFixture)
     {
-        WebApiFactory webApiFactory = new(mongoDbFixture);
+        WebApiFactory webApiFactory = new(new Dictionary<string, string?>
+        {
+            { "MongoDbSettings:ConnectionURI", mongoDbFixture.MongoDbContainer.GetConnectionString() }
+        });
         this._httpClient = webApiFactory.CreateClient();
     }
 

@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="FoSouzaDev.Customers.Application" />
+    <InternalsVisibleTo Include="FoSouzaDev.Customers.FunctionalTests" />
     <InternalsVisibleTo Include="FoSouzaDev.Customers.IntegrationTests" />
     <InternalsVisibleTo Include="FoSouzaDev.Customers.UnitaryTests" />
   </ItemGroup>
