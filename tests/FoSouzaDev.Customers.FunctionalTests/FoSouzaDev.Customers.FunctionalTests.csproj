@@ -34,7 +34,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Features\Customer.feature">
+    <None Update="Features\CustomerTests\DeleteCustomer.feature">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Features\CustomerTests\QueryCustomer.feature">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Features\CustomerTests\EditCustomer.feature">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Features\CustomerTests\RegisterCustomer.feature">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

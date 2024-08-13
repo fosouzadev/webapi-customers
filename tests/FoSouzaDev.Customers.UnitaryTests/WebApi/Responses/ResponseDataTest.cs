@@ -49,4 +49,18 @@ public sealed class ResponseDataTest : BaseTest
         responseData.Data.Should().Be(expectedData);
         responseData.ErrorMessage.Should().Be(expectedErrorMessage);
     }
+
+    [Fact]
+    public void Constructor_InvalidData_ThrowArgumentNullException()
+    {
+        // Arrange
+        string? expectedData = default;
+        string? expectedErrorMessage = default;
+
+        // Act
+        Action act = () => new ResponseData<string>(expectedData, expectedErrorMessage);
+
+        // Assert
+        act.Should().ThrowExactly<ArgumentNullException>().WithMessage("Invalid data.");
+    }
 }

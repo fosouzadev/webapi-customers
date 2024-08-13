@@ -1,41 +1,48 @@
 ﻿using AutoFixture;
 using FoSouzaDev.Customers.CommonTests;
+using System.Text.Json;
 using Xunit.Gherkin.Quick;
 
-namespace FoSouzaDev.Customers.FunctionalTests
+namespace FoSouzaDev.Customers.FunctionalTests;
+
+[Collection("MongoDbFixture")]
+public abstract class BaseFeature : Feature, IDisposable
 {
-    [Collection("MongoDbFixture")]
-    public abstract class BaseFeature : Feature, IDisposable
+    protected Fixture Fixture { get; private init; }
+    protected JsonSerializerOptions JsonSerializerOptions { get; private init; }
+
+    protected IDictionary<string, string?> DefaultConfiguration { get; private init; }
+    protected HttpClient? HttpClient { get; private set; }
+    protected HttpResponseMessage? HttpResponse { get; set; }
+
+    protected BaseFeature(MongoDbFixture mongoDbFixture)
     {
-        protected IDictionary<string, string?> DefaultConfiguration { get; private init; }
-        protected Fixture Fixture { get; private init; }
-        protected HttpClient? HttpClient { get; private set; }
-        protected HttpResponseMessage? HttpResponse { get; set; }
-
-        protected BaseFeature(MongoDbFixture mongoDbFixture)
+        Fixture = new();
+        JsonSerializerOptions = new()
         {
-            this.Fixture = new();
-            this.DefaultConfiguration = new Dictionary<string, string?>
-            {
-                { "Logging:LogLevel:Default", "Information" },
-                { "Logging:LogLevel:Microsoft.AspNetCore", "Critical" },
-                { "Logging:LogLevel:Microsoft", "Critical" },
-                { "Logging:LogLevel:Microsoft.Hosting.Lifetime", "Critical" },
-                { "AllowedHosts", "*" },
-                { "MongoDbSettings:ConnectionURI", mongoDbFixture.MongoDbContainer.GetConnectionString() },
-                { "MongoDbSettings:DatabaseName", "Test" },
-            };
-        }
+            PropertyNameCaseInsensitive = true
+        };
 
-        protected void StartApplication()
+        DefaultConfiguration = new Dictionary<string, string?>
         {
-            this.HttpClient = new WebApiFactory(this.DefaultConfiguration).CreateClient();
-        }
+            { "Logging:LogLevel:Default", "Information" },
+            { "Logging:LogLevel:Microsoft.AspNetCore", "Critical" },
+            { "Logging:LogLevel:Microsoft", "Critical" },
+            { "Logging:LogLevel:Microsoft.Hosting.Lifetime", "Critical" },
+            { "AllowedHosts", "*" },
+            { "MongoDbSettings:ConnectionURI", mongoDbFixture.MongoDbContainer.GetConnectionString() },
+            { "MongoDbSettings:DatabaseName", "Test" },
+        };
+    }
 
-        public void Dispose()
-        {
-            this.HttpClient?.Dispose();
-            this.HttpResponse?.Dispose();
-        }
+    protected void StartApplication()
+    {
+        HttpClient = new WebApiFactory(DefaultConfiguration).CreateClient();
+    }
+
+    public void Dispose()
+    {
+        HttpClient?.Dispose();
+        HttpResponse?.Dispose();
     }
 }

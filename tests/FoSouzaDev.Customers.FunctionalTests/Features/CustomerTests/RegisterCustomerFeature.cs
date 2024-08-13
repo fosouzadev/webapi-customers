@@ -8,8 +8,9 @@ using System.Text;
 using System.Text.Json;
 using Xunit.Gherkin.Quick;
 
-namespace FoSouzaDev.Customers.FunctionalTests.Features;
+namespace FoSouzaDev.Customers.FunctionalTests.Features.CustomerTests;
 
+[FeatureFile("./Features/CustomerTests/RegisterCustomer.feature")]
 public sealed class RegisterCustomerFeature(MongoDbFixture mongoDbFixture) : BaseCustomerFeature(mongoDbFixture)
 {
     private AddCustomerDto? _customerDto;
@@ -18,7 +19,7 @@ public sealed class RegisterCustomerFeature(MongoDbFixture mongoDbFixture) : Bas
     [Given("I choose valid random data for a new client")]
     public void GenerateCustomerData()
     {
-        this._customerDto = base.Fixture.Build<AddCustomerDto>()
+        _customerDto = Fixture.Build<AddCustomerDto>()
             .With(a => a.BirthDate, ValidBirthDate)
             .With(a => a.Email, ValidEmail)
             .Create();
@@ -27,9 +28,9 @@ public sealed class RegisterCustomerFeature(MongoDbFixture mongoDbFixture) : Bas
     [When("I send a registration request")]
     public async Task SendRegistrationRequest()
     {
-        base.StartApplication();
+        StartApplication();
 
-        using StringContent jsonContent = new(JsonSerializer.Serialize(this._customerDto), Encoding.UTF8, "application/json");
+        using StringContent jsonContent = new(JsonSerializer.Serialize(_customerDto), Encoding.UTF8, "application/json");
         base.HttpResponse = await base.HttpClient!.PostAsync(Route, jsonContent);
     }
 
@@ -37,21 +38,23 @@ public sealed class RegisterCustomerFeature(MongoDbFixture mongoDbFixture) : Bas
     public async Task ValidateResponseData()
     {
         string jsonContent = await base.HttpResponse!.Content.ReadAsStringAsync();
-        ResponseData<string>? responseData = JsonSerializer.Deserialize<ResponseData<string>>(jsonContent);
-        responseData.Should().NotBeNull();
-        responseData!.Data.Should().NotBeNull(); // TODO: linha 40 precisa deserializar usando construtor
+        ResponseData<string>? responseData = JsonSerializer.Deserialize<ResponseData<string>>(jsonContent, base.JsonSerializerOptions);
 
-        this._insertedId = responseData!.Data!;
+        responseData.Should().NotBeNull();
+        responseData!.Data.Should().NotBeNull();
+        responseData.ErrorMessage.Should().BeNull();
+
+        _insertedId = responseData!.Data!;
     }
 
     [And("The customer must exist in the database")]
     public async Task ValidateDatabase()
     {
-        Customer? customer = await base.CustomerRepository.GetByIdAsync(this._insertedId!);
+        Customer? customer = await base.CustomerRepository.GetByIdAsync(_insertedId!);
         customer.Should().NotBeNull();
 
-        Customer expectedCustomer = this._customerDto!;
-        expectedCustomer.Id = this._insertedId!;
+        Customer expectedCustomer = _customerDto!;
+        expectedCustomer.Id = _insertedId!;
         customer.Should().BeEquivalentTo(expectedCustomer);
     }
 }

@@ -1,4 +1,4 @@
-﻿Feature: Test the possible actions on a customer registration
+﻿Feature: Register a customer
 
 Scenario: Register a customer
 	Given I choose valid random data for a new client
