@@ -37,7 +37,7 @@ public abstract class BaseFeature : Feature, IDisposable
         };
     }
 
-    [Then(@"The request response must be successful with status code (\d+)")]
+    [Then(@"The http response should be (\d+)")]
     public void ValidateResponse(int httpStatusCode)
     {
         HttpResponse!.StatusCode.Should().Be((HttpStatusCode)httpStatusCode);
@@ -50,7 +50,7 @@ public abstract class BaseFeature : Feature, IDisposable
 
     public void Dispose()
     {
-        HttpClient?.Dispose();
-        HttpResponse?.Dispose();
+        HttpClient!.Dispose();
+        HttpResponse!.Dispose();
     }
 }

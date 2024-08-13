@@ -13,6 +13,14 @@ public sealed class HealthCheckFeature(MongoDbFixture mongoDbFixture) : BaseFeat
         base.StartApplication();
     }
 
+    [Given("Database unavailable")]
+    public void DatabaseUnavailable()
+    {
+        base.DefaultConfiguration["MongoDbSettings:ConnectionURI"] = "mongodb://test:test@localhost:27017";
+
+        base.StartApplication();
+    }
+
     [When("I send the request")]
     public async Task SendRequest()
     {
