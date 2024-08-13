@@ -46,6 +46,9 @@
     <None Update="Features\CustomerTests\RegisterCustomer.feature">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Features\HealthCheck.feature">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

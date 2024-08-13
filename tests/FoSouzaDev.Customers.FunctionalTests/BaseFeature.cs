@@ -1,5 +1,7 @@
 ﻿using AutoFixture;
+using FluentAssertions;
 using FoSouzaDev.Customers.CommonTests;
+using System.Net;
 using System.Text.Json;
 using Xunit.Gherkin.Quick;
 
@@ -33,6 +35,12 @@ public abstract class BaseFeature : Feature, IDisposable
             { "MongoDbSettings:ConnectionURI", mongoDbFixture.MongoDbContainer.GetConnectionString() },
             { "MongoDbSettings:DatabaseName", "Test" },
         };
+    }
+
+    [Then(@"The request response must be successful with status code (\d+)")]
+    public void ValidateResponse(int httpStatusCode)
+    {
+        HttpResponse!.StatusCode.Should().Be((HttpStatusCode)httpStatusCode);
     }
 
     protected void StartApplication()

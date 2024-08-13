@@ -1,12 +1,10 @@
 ﻿using AutoFixture;
-using FluentAssertions;
 using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Entities;
 using FoSouzaDev.Customers.Domain.Repositories;
 using FoSouzaDev.Customers.Domain.ValueObjects;
 using FoSouzaDev.Customers.Infrastructure.Repositories;
 using MongoDB.Driver;
-using System.Net;
 using Xunit.Gherkin.Quick;
 
 namespace FoSouzaDev.Customers.FunctionalTests.Features.CustomerTests;
@@ -39,11 +37,5 @@ public abstract class BaseCustomerFeature : BaseFeature
         await CustomerRepository.AddAsync(existingCustomer);
 
         ExistingCustomerId = existingCustomer.Id;
-    }
-
-    [Then(@"The request response must be successful with status code (\d+)")]
-    public void ValidateResponse(int httpStatusCode)
-    {
-        base.HttpResponse!.StatusCode.Should().Be((HttpStatusCode)httpStatusCode);
     }
 }
