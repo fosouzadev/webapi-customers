@@ -14,14 +14,24 @@ namespace FoSouzaDev.Customers.FunctionalTests.Features.CustomerTests;
 public sealed class RegisterCustomerFeature(MongoDbFixture mongoDbFixture) : BaseCustomerFeature(mongoDbFixture)
 {
     private AddCustomerDto? _customerDto;
-    private string? _insertedId;
 
     [Given("I choose valid random data for a new client")]
-    public void GenerateCustomerData()
+    public void GenerateValidCustomerData()
     {
         _customerDto = Fixture.Build<AddCustomerDto>()
             .With(a => a.BirthDate, ValidBirthDate)
             .With(a => a.Email, ValidEmail)
+            .Create();
+    }
+
+    [Given("I choose the data for a new customer with an invalid (.*)")]
+    public void GenerateInvalidCustomerData(string invalidData)
+    {
+        _customerDto = Fixture.Build<AddCustomerDto>()
+            .With(a => a.Name, invalidData == "name" ? string.Empty : base.Fixture.Create<string>())
+            .With(a => a.LastName, invalidData == "last name" ? string.Empty : base.Fixture.Create<string>())
+            .With(a => a.BirthDate, invalidData == "date of birth" ? DateTime.Now.Date : ValidBirthDate)
+            .With(a => a.Email, invalidData == "email" ? string.Empty : ValidEmail)
             .Create();
     }
 
@@ -37,24 +47,23 @@ public sealed class RegisterCustomerFeature(MongoDbFixture mongoDbFixture) : Bas
     [And("The response contais the inserted id")]
     public async Task ValidateResponseData()
     {
-        string jsonContent = await base.HttpResponse!.Content.ReadAsStringAsync();
-        ResponseData<string>? responseData = JsonSerializer.Deserialize<ResponseData<string>>(jsonContent, base.JsonSerializerOptions);
+        ResponseData<string>? responseData = await base.GetResponseDataAsync<string>();
 
         responseData.Should().NotBeNull();
         responseData!.Data.Should().NotBeNull();
         responseData.ErrorMessage.Should().BeNull();
 
-        _insertedId = responseData!.Data!;
+        base.CustomerId = responseData!.Data;
     }
 
     [And("The customer must exist in the database")]
     public async Task ValidateDatabase()
     {
-        Customer? customer = await base.CustomerRepository.GetByIdAsync(_insertedId!);
+        Customer? customer = await base.CustomerRepository.GetByIdAsync(base.CustomerId!);
         customer.Should().NotBeNull();
 
         Customer expectedCustomer = _customerDto!;
-        expectedCustomer.Id = _insertedId!;
+        expectedCustomer.Id = base.CustomerId!;
         customer.Should().BeEquivalentTo(expectedCustomer);
     }
 }

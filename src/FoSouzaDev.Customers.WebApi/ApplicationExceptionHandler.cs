@@ -18,7 +18,7 @@ public sealed class ApplicationExceptionHandler(ILogger<ApplicationExceptionHand
                 break;
             case NotFoundException ex:
                 httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-                response = new ResponseData<string>(data: ex.Id);
+                response = new ResponseData<string>(data: ex.Id, errorMessage: exception.Message);
                 break;
             default:
                 httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;

@@ -20,19 +20,28 @@ public sealed class EditCustomerFeature(MongoDbFixture mongoDbFixture) : BaseCus
         _customerDto = base.Fixture.Create<EditCustomerDto>();
     }
 
+    [And("I choose the data to edit a customer with an invalid (.*)")]
+    public void GenerateInvalidCustomerData(string invalidData)
+    {
+        _customerDto = Fixture.Build<EditCustomerDto>()
+            .With(a => a.Name, invalidData == "name" ? string.Empty : base.Fixture.Create<string>())
+            .With(a => a.LastName, invalidData == "last name" ? string.Empty : base.Fixture.Create<string>())
+            .Create();
+    }
+
     [When("I send the edit request")]
     public async Task SendEditRequest()
     {
         StartApplication();
 
         using StringContent jsonContent = new(JsonSerializer.Serialize(_customerDto), Encoding.UTF8, "application/json");
-        base.HttpResponse = await base.HttpClient!.PatchAsync($"{Route}/{base.ExistingCustomerId}", jsonContent);
+        base.HttpResponse = await base.HttpClient!.PatchAsync($"{Route}/{base.CustomerId}", jsonContent);
     }
 
     [And("The customer must be edited in the database")]
     public async Task ValidateDatabase()
     {
-        Customer? customer = await base.CustomerRepository.GetByIdAsync(base.ExistingCustomerId!);
+        Customer? customer = await base.CustomerRepository.GetByIdAsync(base.CustomerId!);
         customer.Should().NotBeNull();
 
         customer!.FullName.Name.Should().Be(_customerDto!.Name);

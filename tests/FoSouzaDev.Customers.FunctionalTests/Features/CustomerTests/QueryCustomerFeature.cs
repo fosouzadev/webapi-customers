@@ -16,13 +16,13 @@ public sealed class QueryCustomerFeature(MongoDbFixture mongoDbFixture) : BaseCu
     {
         StartApplication();
 
-        base.HttpResponse = await base.HttpClient!.GetAsync($"{Route}/{base.ExistingCustomerId}");
+        base.HttpResponse = await base.HttpClient!.GetAsync($"{Route}/{base.CustomerId}");
     }
 
     [And("The response contains the requested customer data")]
     public async Task ValidateResponseData()
     {
-        Customer? customer = await base.CustomerRepository.GetByIdAsync(base.ExistingCustomerId!);
+        Customer? customer = await base.CustomerRepository.GetByIdAsync(base.CustomerId!);
         customer.Should().NotBeNull();
 
         string jsonContent = await base.HttpResponse!.Content.ReadAsStringAsync();

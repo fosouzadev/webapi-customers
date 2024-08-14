@@ -1,9 +1,11 @@
 ﻿using AutoFixture;
+using FluentAssertions;
 using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Entities;
 using FoSouzaDev.Customers.Domain.Repositories;
 using FoSouzaDev.Customers.Domain.ValueObjects;
 using FoSouzaDev.Customers.Infrastructure.Repositories;
+using FoSouzaDev.Customers.WebApi.Responses;
 using MongoDB.Driver;
 using Xunit.Gherkin.Quick;
 
@@ -17,7 +19,7 @@ public abstract class BaseCustomerFeature : BaseFeature
 
     protected static DateTime ValidBirthDate => DateTime.Now.AddYears(-18).Date;
     protected static string ValidEmail => "test@test.com";
-    protected string? ExistingCustomerId { get; private set; }
+    protected string? CustomerId { get; set; }
 
     protected BaseCustomerFeature(MongoDbFixture mongoDbFixture) : base(mongoDbFixture)
     {
@@ -28,14 +30,38 @@ public abstract class BaseCustomerFeature : BaseFeature
         base.Fixture.Customize<Email>(a => a.FromFactory(() => new Email(ValidEmail)));
     }
 
-    [Given("I choose an existing customer id")]
-    public async Task GenerateExistingCustomer()
+    [Given("I choose a customer id: (.*)")]
+    public async Task SetCustomerId(string id)
     {
+        if (id != "valid")
+        {
+            CustomerId = id;
+            return;
+        }
+
         Customer existingCustomer = base.Fixture.Create<Customer>();
         existingCustomer.Id = string.Empty;
 
         await CustomerRepository.AddAsync(existingCustomer);
 
-        ExistingCustomerId = existingCustomer.Id;
+        CustomerId = existingCustomer.Id;
+    }
+
+    [And("The response contains the following value for the ErrorMessage field: (.*)")]
+    public async Task ValidateResponseErrorMessage(string errorMessage)
+    {
+        ResponseData<string>? responseData = await base.GetResponseDataAsync<string>();
+        responseData.Should().NotBeNull();
+
+        responseData!.ErrorMessage.Should().Be(errorMessage);
+    }
+
+    [And("The response contains the following value for the Data field: (.*)")]
+    public async Task ValidateResponseData(string data)
+    {
+        ResponseData<string>? responseData = await base.GetResponseDataAsync<string>();
+        responseData.Should().NotBeNull();
+
+        (responseData!.Data ?? "null").Should().Be(data);
     }
 }
