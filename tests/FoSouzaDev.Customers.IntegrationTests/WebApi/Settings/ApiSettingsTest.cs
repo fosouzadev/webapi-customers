@@ -1,17 +1,18 @@
 ﻿using FluentAssertions;
+using FoSouzaDev.Customers.Application.Infrastructure.Repositories;
 using FoSouzaDev.Customers.Application.Services;
-using FoSouzaDev.Customers.Application.Settings;
 using FoSouzaDev.Customers.CommonTests;
-using FoSouzaDev.Customers.Domain.Repositories;
-using FoSouzaDev.Customers.Domain.Services;
+using FoSouzaDev.Customers.Infrastructure.Repositories.Settings;
+using FoSouzaDev.Customers.WebApi.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace FoSouzaDev.Customers.IntegrationTests.Application.Settings;
+namespace FoSouzaDev.Customers.IntegrationTests.WebApi.Settings;
 
 [Collection("MongoDbFixture")]
-public sealed class ApplicationSettingsTest(MongoDbFixture mongoDbFixture)
+public sealed class ApiSettingsTest(MongoDbFixture mongoDbFixture)
 {
     [Fact]
     public void AddApplicationServices_Success_DependenciesConfigured()
@@ -26,16 +27,17 @@ public sealed class ApplicationSettingsTest(MongoDbFixture mongoDbFixture)
             .Build();
 
         IServiceCollection services = new ServiceCollection();
-        services.AddApplicationServices(configuration);
+        services.AddApiServices(configuration);
 
         // Act
         ServiceProvider serviceProvider = services.BuildServiceProvider();
 
         // Assert
         serviceProvider.GetService<ICustomerRepository>().Should().NotBeNull();
-        serviceProvider.GetService<ICustomerService>().Should().NotBeNull();
         serviceProvider.GetService<ICustomerApplicationService>().Should().NotBeNull();
 
+        serviceProvider.GetService<IOptions<MongoDbSettings>>().Should().NotBeNull();
+        serviceProvider.GetService<IMongoClient>().Should().NotBeNull();
         serviceProvider.GetService<IMongoDatabase>().Should().NotBeNull();
     }
 }

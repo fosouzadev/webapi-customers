@@ -62,7 +62,7 @@ public sealed class RegisterCustomerFeature(MongoDbFixture mongoDbFixture) : Bas
         Customer? customer = await base.CustomerRepository.GetByIdAsync(base.CustomerId!);
         customer.Should().NotBeNull();
 
-        Customer expectedCustomer = _customerDto!;
+        Customer expectedCustomer = (Customer)_customerDto!;
         expectedCustomer.Id = base.CustomerId!;
         customer.Should().BeEquivalentTo(expectedCustomer);
     }

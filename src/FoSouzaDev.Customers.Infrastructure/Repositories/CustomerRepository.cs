@@ -1,5 +1,5 @@
-﻿using FoSouzaDev.Customers.Domain.Entities;
-using FoSouzaDev.Customers.Domain.Repositories;
+﻿using FoSouzaDev.Customers.Application.Infrastructure.Repositories;
+using FoSouzaDev.Customers.Domain.Entities;
 using FoSouzaDev.Customers.Infrastructure.Repositories.Entities;
 using MongoDB.Driver;
 
@@ -12,7 +12,7 @@ internal sealed class CustomerRepository(IMongoDatabase mongoDatabase) : ICustom
 
     public async Task AddAsync(Customer customer)
     {
-        CustomerEntity customerEntity = customer;
+        CustomerEntity customerEntity = (CustomerEntity)customer;
         await this._collection.InsertOneAsync(customerEntity);
 
         customer.Id = customerEntity.Id;
@@ -28,7 +28,7 @@ internal sealed class CustomerRepository(IMongoDatabase mongoDatabase) : ICustom
 
     public async Task ReplaceAsync(Customer customer)
     {
-        CustomerEntity customerEntity = customer;
+        CustomerEntity customerEntity = (CustomerEntity)customer;
 
         var filter = Builders<CustomerEntity>.Filter.Eq(a => a.Id, customerEntity.Id);
         ReplaceOneResult result = await this._collection.ReplaceOneAsync(filter, customerEntity);

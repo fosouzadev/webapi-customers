@@ -12,9 +12,9 @@ public sealed record CustomerDto
     public required string Email { get; init; }
     public string? Notes { get; init; }
 
-    public static implicit operator Customer(CustomerDto customerDto) =>
+    public static explicit operator Customer(CustomerDto customerDto) =>
         CustomerMap.CustomerDtoToCustomer(customerDto);
 
-    public static implicit operator CustomerDto(Customer customer) =>
+    public static explicit operator CustomerDto(Customer customer) =>
         CustomerMap.CustomerToCustomerDto(customer);
 }

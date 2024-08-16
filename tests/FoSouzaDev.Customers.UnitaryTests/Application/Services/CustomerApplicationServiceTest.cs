@@ -1,10 +1,12 @@
 ﻿using AutoFixture;
+using Castle.Core.Resource;
 using FluentAssertions;
 using FoSouzaDev.Customers.Application.DataTransferObjects;
+using FoSouzaDev.Customers.Application.Infrastructure.Repositories;
 using FoSouzaDev.Customers.Application.Services;
 using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Entities;
-using FoSouzaDev.Customers.Domain.Services;
+using FoSouzaDev.Customers.Domain.Exceptions;
 using FoSouzaDev.Customers.Domain.ValueObjects;
 using Moq;
 
@@ -12,15 +14,15 @@ namespace FoSouzaDev.Customers.UnitaryTests.Application.Services;
 
 public sealed class CustomerApplicationServiceTest : BaseTest
 {
-    private readonly Mock<ICustomerService> _customerServiceMock;
+    private readonly Mock<ICustomerRepository> _customerRepositoryMock;
 
     private readonly ICustomerApplicationService _customerApplicationService;
 
     public CustomerApplicationServiceTest()
     {
-        this._customerServiceMock = new();
+        this._customerRepositoryMock = new();
 
-        this._customerApplicationService = new CustomerApplicationService(this._customerServiceMock.Object);
+        this._customerApplicationService = new CustomerApplicationService(this._customerRepositoryMock.Object);
     }
 
     [Fact]
@@ -38,7 +40,7 @@ public sealed class CustomerApplicationServiceTest : BaseTest
         // Assert
         id.Should().Be(string.Empty);
 
-        this._customerServiceMock.Verify(a => a.AddAsync(It.Is<Customer>(b =>
+        this._customerRepositoryMock.Verify(a => a.AddAsync(It.Is<Customer>(b =>
             b.FullName.Name == customer.Name &&
             b.FullName.LastName == customer.LastName &&
             b.BirthDate.Date == customer.BirthDate &&
@@ -51,22 +53,54 @@ public sealed class CustomerApplicationServiceTest : BaseTest
     {
         // Arrange
         string id = base.Fixture.Create<string>();
-
-        CustomerDto expectedCustomer = base.Fixture.Build<CustomerDto>()
-            .With(a => a.BirthDate, ValidBirthDate)
-            .With(a => a.Email, ValidEmail)
-            .Create();
-        this._customerServiceMock.Setup(a => a.GetByIdAsync(id)).ReturnsAsync(expectedCustomer);
+        Customer expectedCustomer = MockGetById(id);
 
         // Act
         CustomerDto customer = await this._customerApplicationService.GetByIdAsync(id);
 
         // Assert
-        customer.Should().Be(expectedCustomer);
+        customer.Should().Be((CustomerDto)expectedCustomer);
+    }
+
+    [Fact]
+    public async Task GetByIdAsync_NotFound_ThrowNotFoundException()
+    {
+        // Arrange
+        string id = base.Fixture.Create<string>();
+
+        // Act
+        Func<Task> act = () => this._customerApplicationService.GetByIdAsync(id);
+
+        // Assert
+        await act.Should().ThrowExactlyAsync<NotFoundException>();
     }
 
     [Fact]
     public async Task EditAsync_Success_NotThrowException()
+    {
+        // Arrange
+        string id = base.Fixture.Create<string>();
+        EditCustomerDto customer = base.Fixture.Create<EditCustomerDto>();
+        
+        Customer expectedCustomer = MockGetById(id);
+        expectedCustomer.FullName = new FullName(customer.Name, customer.LastName);
+        expectedCustomer.Notes = customer.Notes;
+
+        // Act
+        Func<Task> act = () => this._customerApplicationService.EditAsync(id, customer);
+
+        // Assert
+        await act.Should().NotThrowAsync();
+
+        this._customerRepositoryMock.Verify(a => a.ReplaceAsync(It.Is<Customer>(b =>
+            b.FullName == expectedCustomer.FullName &&
+            b.BirthDate == expectedCustomer.BirthDate &&
+            b.Email == expectedCustomer.Email &&
+            b.Notes == expectedCustomer.Notes)), Times.Once);
+    }
+
+    [Fact]
+    public async Task EditAsync_NotFound_ThrowNotFoundException()
     {
         // Arrange
         string id = base.Fixture.Create<string>();
@@ -76,14 +110,27 @@ public sealed class CustomerApplicationServiceTest : BaseTest
         Func<Task> act = () => this._customerApplicationService.EditAsync(id, customer);
 
         // Assert
-        await act.Should().NotThrowAsync();
-
-        this._customerServiceMock.Verify(a =>
-            a.EditAsync(id, new FullName(customer.Name, customer.LastName), customer.Notes), Times.Once);
+        await act.Should().ThrowExactlyAsync<NotFoundException>();
     }
 
     [Fact]
     public async Task DeleteAsync_Success_NotThrowException()
+    {
+        // Arrange
+        string id = base.Fixture.Create<string>();
+        _ = MockGetById(id);
+
+        // Act
+        Func<Task> act = () => this._customerApplicationService.DeleteAsync(id);
+
+        // Assert
+        await act.Should().NotThrowAsync();
+
+        this._customerRepositoryMock.Verify(a => a.DeleteAsync(id), Times.Once);
+    }
+
+    [Fact]
+    public async Task DeleteAsync_NotFound_ThrowNotFoundException()
     {
         // Arrange
         string id = base.Fixture.Create<string>();
@@ -92,8 +139,15 @@ public sealed class CustomerApplicationServiceTest : BaseTest
         Func<Task> act = () => this._customerApplicationService.DeleteAsync(id);
 
         // Assert
-        await act.Should().NotThrowAsync();
+        await act.Should().ThrowExactlyAsync<NotFoundException>();
+    }
 
-        this._customerServiceMock.Verify(a => a.DeleteAsync(id), Times.Once);
+    private Customer MockGetById(string id)
+    {
+        Customer expectedCustomer = base.Fixture.Create<Customer>();
+
+        this._customerRepositoryMock.Setup(a => a.GetByIdAsync(id)).ReturnsAsync(expectedCustomer);
+
+        return expectedCustomer;
     }
 }

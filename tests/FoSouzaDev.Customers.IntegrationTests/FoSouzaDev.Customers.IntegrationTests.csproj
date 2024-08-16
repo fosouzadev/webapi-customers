@@ -29,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\FoSouzaDev.Customers.Application\FoSouzaDev.Customers.Application.csproj" />
     <ProjectReference Include="..\..\src\FoSouzaDev.Customers.Infrastructure\FoSouzaDev.Customers.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\FoSouzaDev.Customers.WebApi\FoSouzaDev.Customers.WebApi.csproj" />
     <ProjectReference Include="..\FoSouzaDev.Customers.CommonTests\FoSouzaDev.Customers.CommonTests.csproj" />
   </ItemGroup>
 

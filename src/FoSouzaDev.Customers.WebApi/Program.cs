@@ -1,4 +1,4 @@
-using FoSouzaDev.Customers.Application.Settings;
+using FoSouzaDev.Customers.WebApi.Settings;
 
 namespace FoSouzaDev.Customers.WebApi;
 
@@ -9,7 +9,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.Logging.ClearProviders().AddConsole();
 
-        builder.Services.AddApplicationServices(builder.Configuration);
+        builder.Services.AddApiServices(builder.Configuration);
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
@@ -17,7 +17,7 @@ public class Program
         builder.Services.AddExceptionHandler<ApplicationExceptionHandler>();
         builder.Services.AddProblemDetails();
 
-        builder.Services.AddHealthChecks().AddApplicationHealthChecks();
+        builder.Services.AddHealthChecks().AddApiHealthChecks();
 
         var app = builder.Build();
 

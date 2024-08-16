@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FoSouzaDev.Customers.Application\FoSouzaDev.Customers.Application.csproj" />
+    <ProjectReference Include="..\FoSouzaDev.Customers.Infrastructure\FoSouzaDev.Customers.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

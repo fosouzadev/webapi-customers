@@ -22,9 +22,9 @@ internal sealed class CustomerEntity
     [BsonIgnoreIfNull]
     public string? Notes { get; set; }
 
-    public static implicit operator CustomerEntity(Customer customer) =>
+    public static explicit operator CustomerEntity(Customer customer) =>
         CustomerEntityMap.CustomerToCustomerEntity(customer);
 
-    public static implicit operator Customer?(CustomerEntity? customerEntity) =>
+    public static explicit operator Customer?(CustomerEntity? customerEntity) =>
         CustomerEntityMap.CustomerEntityToCustomer(customerEntity);
 }

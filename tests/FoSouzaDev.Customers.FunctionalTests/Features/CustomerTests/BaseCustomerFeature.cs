@@ -1,8 +1,8 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using FoSouzaDev.Customers.Application.Infrastructure.Repositories;
 using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Entities;
-using FoSouzaDev.Customers.Domain.Repositories;
 using FoSouzaDev.Customers.Domain.ValueObjects;
 using FoSouzaDev.Customers.Infrastructure.Repositories;
 using FoSouzaDev.Customers.WebApi.Responses;

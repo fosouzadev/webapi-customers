@@ -11,6 +11,6 @@ public sealed record AddCustomerDto
     public required string Email { get; init; }
     public string? Notes { get; init; }
 
-    public static implicit operator Customer(AddCustomerDto addCustomerDto) =>
+    public static explicit operator Customer(AddCustomerDto addCustomerDto) =>
         CustomerMap.AddCustomerDtoToCustomer(addCustomerDto);
 }
