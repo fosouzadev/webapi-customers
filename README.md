@@ -1,3 +1,5 @@
+[![.NET](https://github.com/fosouzadev/fosouzadev-customers/actions/workflows/dotnet.yml/badge.svg)](https://github.com/fosouzadev/fosouzadev-customers/actions/workflows/dotnet.yml)
+
 ## Domínio
 Essa aplicação gerencia um cadastro simples de clientes.
 
