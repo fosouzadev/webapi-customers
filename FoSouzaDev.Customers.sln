@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EAA4BDC9-3A34-43F1-925B-533D3FA6EE9D}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -27,7 +28,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoSouzaDev.Customers.Integr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoSouzaDev.Customers.Application", "src\FoSouzaDev.Customers.Application\FoSouzaDev.Customers.Application.csproj", "{B0FEBE30-8BB2-4021-8BE0-AC20ED867D52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoSouzaDev.Customers.CommonTests", "tests\FoSouzaDev.Customers.CommonTests\FoSouzaDev.Customers.CommonTests.csproj", "{12E45FF9-6C71-43CC-9FBF-2DF5FE8FE462}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoSouzaDev.Customers.CommonTests", "tests\FoSouzaDev.Customers.CommonTests\FoSouzaDev.Customers.CommonTests.csproj", "{12E45FF9-6C71-43CC-9FBF-2DF5FE8FE462}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
