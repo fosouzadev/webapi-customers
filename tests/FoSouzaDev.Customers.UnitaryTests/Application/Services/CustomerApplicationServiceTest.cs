@@ -1,5 +1,4 @@
 ﻿using AutoFixture;
-using Castle.Core.Resource;
 using FluentAssertions;
 using FoSouzaDev.Customers.Application.DataTransferObjects;
 using FoSouzaDev.Customers.Application.Infrastructure.Repositories;
@@ -8,6 +7,8 @@ using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Entities;
 using FoSouzaDev.Customers.Domain.Exceptions;
 using FoSouzaDev.Customers.Domain.ValueObjects;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 using Moq;
 
 namespace FoSouzaDev.Customers.UnitaryTests.Application.Services;
@@ -75,19 +76,33 @@ public sealed class CustomerApplicationServiceTest : BaseTest
         await act.Should().ThrowExactlyAsync<NotFoundException>();
     }
 
-    [Fact]
-    public async Task EditAsync_Success_NotThrowException()
+    [Theory]
+    [InlineData(OperationType.Replace, "/name", "testName")]
+    [InlineData(OperationType.Replace, "/lastName", "testLastName")]
+    [InlineData(OperationType.Replace, "/notes", "testNotes")]
+    [InlineData(OperationType.Remove, "/notes", null)]
+    [InlineData(OperationType.Add, "/notes", "testNotes")]
+    public async Task EditAsync_Success_NotThrowException(OperationType operationType, string path, string? value)
     {
         // Arrange
         string id = base.Fixture.Create<string>();
-        EditCustomerDto customer = base.Fixture.Create<EditCustomerDto>();
-        
         Customer expectedCustomer = MockGetById(id);
-        expectedCustomer.FullName = new FullName(customer.Name, customer.LastName);
-        expectedCustomer.Notes = customer.Notes;
+
+        JsonPatchDocument<EditCustomerDto> pathDocument = new();
+        pathDocument.Operations.Add(new Operation<EditCustomerDto>
+        {
+            op = operationType.ToString().ToLower(),
+            path = path,
+            value = value
+        });
+        EditCustomerDto editCustomer = (EditCustomerDto)expectedCustomer;
+        pathDocument.ApplyTo(editCustomer);
+
+        expectedCustomer.FullName = new FullName(editCustomer.Name, editCustomer.LastName);
+        expectedCustomer.Notes = editCustomer.Notes;
 
         // Act
-        Func<Task> act = () => this._customerApplicationService.EditAsync(id, customer);
+        Func<Task> act = () => this._customerApplicationService.EditAsync(id, pathDocument);
 
         // Assert
         await act.Should().NotThrowAsync();
@@ -104,7 +119,9 @@ public sealed class CustomerApplicationServiceTest : BaseTest
     {
         // Arrange
         string id = base.Fixture.Create<string>();
-        EditCustomerDto customer = base.Fixture.Create<EditCustomerDto>();
+        JsonPatchDocument<EditCustomerDto> customer = base.Fixture.Build<JsonPatchDocument<EditCustomerDto>>()
+            .Without(a => a.ContractResolver)
+            .Create();
 
         // Act
         Func<Task> act = () => this._customerApplicationService.EditAsync(id, customer);

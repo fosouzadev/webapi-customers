@@ -1,14 +1,14 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using FoSouzaDev.Customers.WebApi;
+using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Exceptions;
+using FoSouzaDev.Customers.WebApi;
 using HttpContextMoq;
 using HttpContextMoq.Extensions;
+using Microsoft.AspNetCore.JsonPatch.Exceptions;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Net;
 using System.Text;
-using FoSouzaDev.Customers.CommonTests;
 
 namespace FoSouzaDev.Customers.UnitaryTests.WebApi;
 
@@ -22,10 +22,11 @@ public sealed class ApplicationExceptionHandlerTest : BaseTest
     }
 
     [Theory]
-    [InlineData(HttpStatusCode.BadRequest)]
-    [InlineData(HttpStatusCode.NotFound)]
-    [InlineData(HttpStatusCode.InternalServerError)]
-    public async Task TryHandleAsync_BadRequest_ReturnExpectedResponse(HttpStatusCode statusCode)
+    [InlineData("ValidateException")]
+    [InlineData("JsonPatchException")]
+    [InlineData("NotFoundException")]
+    [InlineData("Exception")]
+    public async Task TryHandleAsync_BadRequest_ReturnExpectedResponse(string exceptionType)
     {
         // Arrange
         byte[] bodyJson = Encoding.UTF8.GetBytes("{\"test\":\"test\"}");
@@ -36,10 +37,11 @@ public sealed class ApplicationExceptionHandlerTest : BaseTest
             .SetupResponseBody(stream)
             .SetupResponseContentType("application/json");
 
-        Exception ex = statusCode switch
+        Exception ex = exceptionType switch
         {
-            HttpStatusCode.BadRequest => base.Fixture.Create<ValidateException>(),
-            HttpStatusCode.NotFound => base.Fixture.Create<NotFoundException>(),
+            nameof(ValidateException) => base.Fixture.Create<ValidateException>(),
+            nameof(JsonPatchException) => base.Fixture.Create<JsonPatchException>(),
+            nameof(NotFoundException) => base.Fixture.Create<NotFoundException>(),
             _ => base.Fixture.Create<Exception>()
         };
         CancellationToken cancellationToken = CancellationToken.None;

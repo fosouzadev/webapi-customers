@@ -7,6 +7,7 @@ using FoSouzaDev.Customers.WebApi.Controllers;
 using FoSouzaDev.Customers.WebApi.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.JsonPatch;
 using Moq;
 
 namespace FoSouzaDev.Customers.UnitaryTests.WebApi.Controllers;
@@ -65,7 +66,9 @@ public sealed class CustomerControllerTest : BaseTest
     {
         // Arrange
         string id = base.Fixture.Create<string>();
-        EditCustomerDto request = base.Fixture.Create<EditCustomerDto>();
+        JsonPatchDocument<EditCustomerDto> request = base.Fixture.Build<JsonPatchDocument<EditCustomerDto>>()
+            .Without(a => a.ContractResolver)
+            .Create();
 
         // Act
         IResult response = await this._customerController.EditAsync(id, request);

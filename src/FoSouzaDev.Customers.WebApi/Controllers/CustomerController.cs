@@ -1,6 +1,7 @@
 ﻿using FoSouzaDev.Customers.Application.DataTransferObjects;
 using FoSouzaDev.Customers.Application.Services;
 using FoSouzaDev.Customers.WebApi.Responses;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
@@ -36,9 +37,9 @@ public sealed class CustomerController(ICustomerApplicationService customerAppli
     [ProducesResponseType<ResponseData<string>>(StatusCodes.Status404NotFound)]
     [ProducesResponseType<ResponseData<string>>(StatusCodes.Status204NoContent)]
     [ProducesResponseType<ResponseData<string>>(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> EditAsync([FromRoute] string id, [FromBody] EditCustomerDto customer)
+    public async Task<IResult> EditAsync([FromRoute] string id, [FromBody] JsonPatchDocument<EditCustomerDto> pathDocument)
     {
-        await customerApplicationService.EditAsync(id, customer);
+        await customerApplicationService.EditAsync(id, pathDocument);
         return TypedResults.NoContent();
     }
 

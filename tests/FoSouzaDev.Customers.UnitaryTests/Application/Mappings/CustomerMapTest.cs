@@ -86,4 +86,23 @@ public sealed class CustomerMapTest : BaseTest
         // Assert
         customer.Should().BeEquivalentTo(expectedCustomer);
     }
+
+    [Fact]
+    public void CustomerToEditCustomerDto_Success_ReturnExpectedObject()
+    {
+        // Arrange
+        Customer customer = Fixture.Create<Customer>();
+        EditCustomerDto expectedEditCustomerDto = new()
+        {
+            Name = customer.FullName.Name,
+            LastName = customer.FullName.LastName,
+            Notes = customer.Notes
+        };
+
+        // Act
+        EditCustomerDto editCustomerDto = CustomerMap.CustomerToEditCustomerDto(customer);
+
+        // Assert
+        editCustomerDto.Should().BeEquivalentTo(expectedEditCustomerDto);
+    }
 }

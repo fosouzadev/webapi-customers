@@ -1,8 +1,14 @@
-﻿namespace FoSouzaDev.Customers.Application.DataTransferObjects;
+﻿using FoSouzaDev.Customers.Application.Mappings;
+using FoSouzaDev.Customers.Domain.Entities;
+
+namespace FoSouzaDev.Customers.Application.DataTransferObjects;
 
 public sealed record EditCustomerDto
 {
-    public required string Name { get; init; }
-    public required string LastName { get; init; }
+    public string? Name { get; init; }
+    public string? LastName { get; init; }
     public string? Notes { get; init; }
+
+    public static explicit operator EditCustomerDto(Customer customer) =>
+        CustomerMap.CustomerToEditCustomerDto(customer);
 }

@@ -3,6 +3,7 @@ using FoSouzaDev.Customers.Application.Infrastructure.Repositories;
 using FoSouzaDev.Customers.Domain.Entities;
 using FoSouzaDev.Customers.Domain.Exceptions;
 using FoSouzaDev.Customers.Domain.ValueObjects;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace FoSouzaDev.Customers.Application.Services;
 
@@ -10,6 +11,8 @@ internal sealed class CustomerApplicationService(ICustomerRepository customerRep
 {
     public async Task<string> AddAsync(AddCustomerDto customer)
     {
+        // TODO: adicionar validação de existencia por e-mail
+
         Customer entity = (Customer)customer;
         await customerRepository.AddAsync(entity);
 
@@ -22,12 +25,15 @@ internal sealed class CustomerApplicationService(ICustomerRepository customerRep
         return (CustomerDto)entity;
     }
 
-    public async Task EditAsync(string id, EditCustomerDto customer)
+    public async Task EditAsync(string id, JsonPatchDocument<EditCustomerDto> pathDocument)
     {
         Customer entity = await GetByIdOrThrowAsync(id);
+        
+        EditCustomerDto editCustomer = (EditCustomerDto)entity;
+        pathDocument.ApplyTo(editCustomer);
 
-        entity.FullName = new FullName(customer.Name, customer.LastName);
-        entity.Notes = customer.Notes;
+        entity.FullName = new FullName(editCustomer.Name, editCustomer.LastName);
+        entity.Notes = editCustomer.Notes;
 
         await customerRepository.ReplaceAsync(entity);
     }

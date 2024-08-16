@@ -33,4 +33,11 @@ internal static class CustomerMap
         Email = new Email(addCustomerDto.Email),
         Notes = addCustomerDto.Notes
     };
+
+    public static EditCustomerDto CustomerToEditCustomerDto(Customer customer) => new()
+    {
+        Name = customer.FullName.Name,
+        LastName = customer.FullName.LastName,
+        Notes = customer.Notes
+    };
 }

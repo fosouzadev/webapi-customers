@@ -1,6 +1,7 @@
 ﻿using FoSouzaDev.Customers.Domain.Exceptions;
 using FoSouzaDev.Customers.WebApi.Responses;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.JsonPatch.Exceptions;
 
 namespace FoSouzaDev.Customers.WebApi;
 
@@ -13,6 +14,7 @@ public sealed class ApplicationExceptionHandler(ILogger<ApplicationExceptionHand
         switch (exception)
         {
             case ValidateException:
+            case JsonPatchException:
                 httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
                 response = new ResponseData<string>(errorMessage: exception.Message);
                 break;
