@@ -2,6 +2,7 @@
 using FoSouzaDev.Customers.WebApi.Responses;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.JsonPatch.Exceptions;
+using Newtonsoft.Json;
 
 namespace FoSouzaDev.Customers.WebApi;
 
@@ -28,7 +29,7 @@ public sealed class ApplicationExceptionHandler(ILogger<ApplicationExceptionHand
                 break;
         }
 
-        logger.LogError(exception, message: exception.Message, response);
+        logger.LogError(exception, message: "Response: {Response} - Exception message: {ExceptionMessage}", JsonConvert.SerializeObject(response), exception.Message);
 
         await httpContext.Response.WriteAsJsonAsync(response, cancellationToken);
 

@@ -7,7 +7,7 @@ namespace FoSouzaDev.Customers.Infrastructure.Repositories;
 
 internal sealed class CustomerRepository(IMongoDatabase mongoDatabase) : ICustomerRepository
 {
-    private const string CollectionName = "Customers";
+    private const string CollectionName = "customers";
     private readonly IMongoCollection<CustomerEntity> _collection = mongoDatabase.GetCollection<CustomerEntity>(CollectionName);
 
     public async Task AddAsync(Customer customer)

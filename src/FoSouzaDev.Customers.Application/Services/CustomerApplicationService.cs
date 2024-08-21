@@ -11,8 +11,6 @@ internal sealed class CustomerApplicationService(ICustomerRepository customerRep
 {
     public async Task<string> AddAsync(AddCustomerDto customer)
     {
-        // TODO: adicionar validação de existencia por e-mail
-
         Customer entity = (Customer)customer;
         await customerRepository.AddAsync(entity);
 
