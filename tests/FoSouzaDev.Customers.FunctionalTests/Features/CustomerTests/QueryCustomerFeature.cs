@@ -3,7 +3,7 @@ using FoSouzaDev.Customers.Application.DataTransferObjects;
 using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Entities;
 using FoSouzaDev.Customers.WebApi.Responses;
-using System.Text.Json;
+using Newtonsoft.Json;
 using Xunit.Gherkin.Quick;
 
 namespace FoSouzaDev.Customers.FunctionalTests.Features.CustomerTests;
@@ -26,7 +26,7 @@ public sealed class QueryCustomerFeature(MongoDbFixture mongoDbFixture) : BaseCu
         customer.Should().NotBeNull();
 
         string jsonContent = await base.HttpResponse!.Content.ReadAsStringAsync();
-        ResponseData<CustomerDto>? responseData = JsonSerializer.Deserialize<ResponseData<CustomerDto>>(jsonContent, base.JsonSerializerOptions);
+        ResponseData<CustomerDto>? responseData = JsonConvert.DeserializeObject<ResponseData<CustomerDto>>(jsonContent);
 
         responseData.Should().NotBeNull();
         responseData!.Data.Should().NotBeNull();

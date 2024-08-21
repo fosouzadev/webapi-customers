@@ -23,6 +23,10 @@ public sealed class ApplicationExceptionHandler(ILogger<ApplicationExceptionHand
                 httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
                 response = new ResponseData<string>(data: ex.Id, errorMessage: exception.Message);
                 break;
+            case ConflictException ex:
+                httpContext.Response.StatusCode = StatusCodes.Status409Conflict;
+                response = new ResponseData<string>(data: ex.Email, errorMessage: exception.Message);
+                break;
             default:
                 httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 response = new ResponseData<string>(errorMessage: "Internal server error.");

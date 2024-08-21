@@ -2,8 +2,8 @@
 using FluentAssertions;
 using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.WebApi.Responses;
+using Newtonsoft.Json;
 using System.Net;
-using System.Text.Json;
 using Xunit.Gherkin.Quick;
 
 namespace FoSouzaDev.Customers.FunctionalTests;
@@ -12,7 +12,6 @@ namespace FoSouzaDev.Customers.FunctionalTests;
 public abstract class BaseFeature : Feature, IDisposable
 {
     protected Fixture Fixture { get; private init; }
-    protected JsonSerializerOptions JsonSerializerOptions { get; private init; }
 
     protected IDictionary<string, string?> DefaultConfiguration { get; private init; }
     protected HttpClient? HttpClient { get; private set; }
@@ -27,10 +26,6 @@ public abstract class BaseFeature : Feature, IDisposable
     protected BaseFeature(MongoDbFixture mongoDbFixture)
     {
         Fixture = new();
-        JsonSerializerOptions = new()
-        {
-            PropertyNameCaseInsensitive = true
-        };
 
         DefaultConfiguration = new Dictionary<string, string?>
         {
@@ -52,11 +47,13 @@ public abstract class BaseFeature : Feature, IDisposable
     internal async Task<ResponseData<T>?> GetResponseDataAsync<T>()
     {
         string jsonContent = await HttpResponse!.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<ResponseData<T>?>(jsonContent, JsonSerializerOptions);
+        return JsonConvert.DeserializeObject<ResponseData<T>?>(jsonContent);
     }
 
     public void Dispose()
     {
+        GC.SuppressFinalize(this);
+
         HttpClient!.Dispose();
         HttpResponse!.Dispose();
     }

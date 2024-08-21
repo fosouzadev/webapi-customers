@@ -1,11 +1,13 @@
 ﻿using FoSouzaDev.Customers.Application.Infrastructure.Repositories;
 using FoSouzaDev.Customers.Domain.Entities;
+using FoSouzaDev.Customers.Domain.Exceptions;
 using FoSouzaDev.Customers.Infrastructure.Repositories.Entities;
+using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 
 namespace FoSouzaDev.Customers.Infrastructure.Repositories;
 
-internal sealed class CustomerRepository(IMongoDatabase mongoDatabase) : ICustomerRepository
+internal sealed class CustomerRepository(IMongoDatabase mongoDatabase, ILogger<CustomerRepository> logger) : ICustomerRepository
 {
     private const string CollectionName = "customers";
     private readonly IMongoCollection<CustomerEntity> _collection = mongoDatabase.GetCollection<CustomerEntity>(CollectionName);
@@ -13,7 +15,16 @@ internal sealed class CustomerRepository(IMongoDatabase mongoDatabase) : ICustom
     public async Task AddAsync(Customer customer)
     {
         CustomerEntity customerEntity = (CustomerEntity)customer;
-        await this._collection.InsertOneAsync(customerEntity);
+
+        try
+        {
+            await this._collection.InsertOneAsync(customerEntity);
+        }
+        catch (MongoWriteException ex) when (ex.Message.Contains("E11000 duplicate key error collection"))
+        {
+            logger.LogError(ex, message: "Exception message: {ExceptionMessage}", ex.Message);
+            throw new ConflictException(customer.Email.Value);
+        }
 
         customer.Id = customerEntity.Id;
     }

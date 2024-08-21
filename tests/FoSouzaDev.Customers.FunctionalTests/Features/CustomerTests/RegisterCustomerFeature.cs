@@ -4,8 +4,8 @@ using FoSouzaDev.Customers.Application.DataTransferObjects;
 using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Entities;
 using FoSouzaDev.Customers.WebApi.Responses;
+using Newtonsoft.Json;
 using System.Text;
-using System.Text.Json;
 using Xunit.Gherkin.Quick;
 
 namespace FoSouzaDev.Customers.FunctionalTests.Features.CustomerTests;
@@ -40,7 +40,7 @@ public sealed class RegisterCustomerFeature(MongoDbFixture mongoDbFixture) : Bas
     {
         StartApplication();
 
-        using StringContent jsonContent = new(JsonSerializer.Serialize(_customerDto), Encoding.UTF8, "application/json");
+        using StringContent jsonContent = new(JsonConvert.SerializeObject(_customerDto), Encoding.UTF8, "application/json");
         base.HttpResponse = await base.HttpClient!.PostAsync(Route, jsonContent);
     }
 

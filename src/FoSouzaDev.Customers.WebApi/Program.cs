@@ -7,7 +7,8 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.Logging.ClearProviders().AddConsole();
+
+        builder.Services.AddLogging(a => a.AddConsole());
 
         builder.Services.AddApiServices(builder.Configuration);
 

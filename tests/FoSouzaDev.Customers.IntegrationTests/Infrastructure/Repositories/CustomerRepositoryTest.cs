@@ -3,8 +3,10 @@ using FluentAssertions;
 using FoSouzaDev.Customers.Application.Infrastructure.Repositories;
 using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Entities;
+using FoSouzaDev.Customers.Domain.Exceptions;
 using FoSouzaDev.Customers.Domain.ValueObjects;
 using FoSouzaDev.Customers.Infrastructure.Repositories;
+using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -18,7 +20,7 @@ public sealed class CustomerRepositoryTest : BaseTest
     public CustomerRepositoryTest(MongoDbFixture mongoDbFixture)
     {
         IMongoDatabase mongoDatabase = new MongoClient(mongoDbFixture.MongoDbContainer.GetConnectionString()).GetDatabase("testDb");
-        this._customerRepository = new CustomerRepository(mongoDatabase);
+        this._customerRepository = new CustomerRepository(mongoDatabase, new LoggerFactory().CreateLogger<CustomerRepository>());
 }
 
     [Fact]
@@ -34,6 +36,23 @@ public sealed class CustomerRepositoryTest : BaseTest
         // Assert
         Customer? customer = await this._customerRepository.GetByIdAsync(expectedCustomer.Id);
         customer.Should().BeEquivalentTo(expectedCustomer);
+    }
+
+    [Fact]
+    public async Task AddAsync_Conflict_ThrowConflictException()
+    {
+        // Arrange
+        Customer expectedCustomer = base.Fixture.Create<Customer>();
+        expectedCustomer.Id = string.Empty;
+        await this._customerRepository.AddAsync(expectedCustomer);
+
+        // Act
+        Func<Task> act = () => this._customerRepository.AddAsync(expectedCustomer);
+
+        // Assert
+        ConflictException ex = (await act.Should().ThrowExactlyAsync<ConflictException>()).Which;
+        ex.Message.Should().Be("Already registered.");
+        ex.Email.Should().Be(expectedCustomer.Email.Value);
     }
 
     [Fact]
@@ -80,7 +99,8 @@ public sealed class CustomerRepositoryTest : BaseTest
         Func<Task> act = () => this._customerRepository.ReplaceAsync(expectedCustomer);
 
         // Assert
-        await act.Should().ThrowExactlyAsync<InvalidOperationException>($"It was not possible to replace the customer with id: {expectedCustomer.Id}");
+        (await act.Should().ThrowExactlyAsync<InvalidOperationException>())
+            .WithMessage($"It was not possible to replace the customer with id: {expectedCustomer.Id}");
     }
 
     [Fact]
@@ -110,6 +130,7 @@ public sealed class CustomerRepositoryTest : BaseTest
         Func<Task> act = () => this._customerRepository.DeleteAsync(id);
 
         // Assert
-        await act.Should().ThrowExactlyAsync<InvalidOperationException>($"It was not possible to delete the customer with id: {id}");
+        (await act.Should().ThrowExactlyAsync<InvalidOperationException>())
+            .WithMessage($"It was not possible to delete the customer with id: {id}");
     }
 }

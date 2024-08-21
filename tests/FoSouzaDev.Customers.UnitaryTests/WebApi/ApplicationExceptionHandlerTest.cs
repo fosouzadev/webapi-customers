@@ -25,6 +25,7 @@ public sealed class ApplicationExceptionHandlerTest : BaseTest
     [InlineData("ValidateException")]
     [InlineData("JsonPatchException")]
     [InlineData("NotFoundException")]
+    [InlineData("ConflictException")]
     [InlineData("Exception")]
     public async Task TryHandleAsync_BadRequest_ReturnExpectedResponse(string exceptionType)
     {
@@ -42,6 +43,7 @@ public sealed class ApplicationExceptionHandlerTest : BaseTest
             nameof(ValidateException) => base.Fixture.Create<ValidateException>(),
             nameof(JsonPatchException) => base.Fixture.Create<JsonPatchException>(),
             nameof(NotFoundException) => base.Fixture.Create<NotFoundException>(),
+            nameof(ConflictException) => base.Fixture.Create<ConflictException>(),
             _ => base.Fixture.Create<Exception>()
         };
         CancellationToken cancellationToken = CancellationToken.None;

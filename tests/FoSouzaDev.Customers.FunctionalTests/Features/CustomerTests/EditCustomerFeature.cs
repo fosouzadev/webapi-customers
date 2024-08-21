@@ -5,8 +5,8 @@ using FoSouzaDev.Customers.Domain.Entities;
 using Gherkin.Ast;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
+using Newtonsoft.Json;
 using System.Text;
-using System.Text.Json;
 using Xunit.Gherkin.Quick;
 
 namespace FoSouzaDev.Customers.FunctionalTests.Features.CustomerTests;
@@ -14,7 +14,7 @@ namespace FoSouzaDev.Customers.FunctionalTests.Features.CustomerTests;
 [FeatureFile("./Features/CustomerTests/EditCustomer.feature")]
 public sealed class EditCustomerFeature(MongoDbFixture mongoDbFixture) : BaseCustomerFeature(mongoDbFixture)
 {
-    private JsonPatchDocument<EditCustomerDto> _pathDocument = new();
+    private readonly JsonPatchDocument<EditCustomerDto> _pathDocument = new();
 
     [And("I choose the following data to edit:")]
     public void EditCustomerData(DataTable operations)
@@ -39,7 +39,7 @@ public sealed class EditCustomerFeature(MongoDbFixture mongoDbFixture) : BaseCus
     {
         StartApplication();
 
-        using StringContent jsonContent = new(JsonSerializer.Serialize(_pathDocument.Operations), Encoding.UTF8, "application/json");
+        using StringContent jsonContent = new(JsonConvert.SerializeObject(_pathDocument.Operations), Encoding.UTF8, "application/json");
         base.HttpResponse = await base.HttpClient!.PatchAsync($"{Route}/{base.CustomerId}", jsonContent);
     }
 
