@@ -62,6 +62,6 @@ public abstract class BaseCustomerFeature : BaseFeature
         ResponseData<string>? responseData = await base.GetResponseDataAsync<string>();
         responseData.Should().NotBeNull();
 
-        (responseData!.Data ?? "null").Should().Be(data);
+        responseData!.Data.Should().Be(data);
     }
 }
