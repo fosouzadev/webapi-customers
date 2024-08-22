@@ -34,8 +34,8 @@ public abstract class BaseFeature : Feature, IDisposable
             { "Logging:LogLevel:Microsoft", "Critical" },
             { "Logging:LogLevel:Microsoft.Hosting.Lifetime", "Critical" },
             { "AllowedHosts", "*" },
-            { "MongoDbSettings:ConnectionURI", mongoDbFixture.MongoDbContainer.GetConnectionString() },
-            { "MongoDbSettings:DatabaseName", "Test" },
+            { "MongoDbSettings:ConnectionURI", mongoDbFixture.ConnectionString },
+            { "MongoDbSettings:DatabaseName", mongoDbFixture.DatabaseName },
         };
     }
 

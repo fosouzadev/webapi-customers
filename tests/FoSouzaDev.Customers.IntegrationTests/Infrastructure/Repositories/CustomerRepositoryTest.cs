@@ -8,20 +8,15 @@ using FoSouzaDev.Customers.Domain.ValueObjects;
 using FoSouzaDev.Customers.Infrastructure.Repositories;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace FoSouzaDev.Customers.IntegrationTests.Infrastructure.Repositories;
 
 [Collection("MongoDbFixture")]
-public sealed class CustomerRepositoryTest : BaseTest
+public sealed class CustomerRepositoryTest(MongoDbFixture mongoDbFixture) : BaseTest
 {
-    private readonly ICustomerRepository _customerRepository;
-
-    public CustomerRepositoryTest(MongoDbFixture mongoDbFixture)
-    {
-        IMongoDatabase mongoDatabase = new MongoClient(mongoDbFixture.MongoDbContainer.GetConnectionString()).GetDatabase("testDb");
-        this._customerRepository = new CustomerRepository(mongoDatabase, new LoggerFactory().CreateLogger<CustomerRepository>());
-}
+    private readonly ICustomerRepository _customerRepository = new CustomerRepository(
+        mongoDbFixture.MongoDatabase!,
+        new LoggerFactory().CreateLogger<CustomerRepository>());
 
     [Fact]
     public async Task AddAsync_Success_SetNewId()
@@ -31,23 +26,32 @@ public sealed class CustomerRepositoryTest : BaseTest
         expectedCustomer.Id = string.Empty;
 
         // Act
-        await this._customerRepository.AddAsync(expectedCustomer);
+        await _customerRepository.AddAsync(expectedCustomer);
 
         // Assert
-        Customer? customer = await this._customerRepository.GetByIdAsync(expectedCustomer.Id);
+        Customer? customer = await _customerRepository.GetByIdAsync(expectedCustomer.Id);
         customer.Should().BeEquivalentTo(expectedCustomer);
     }
 
     [Fact]
-    public async Task AddAsync_Conflict_ThrowConflictException()
+    public async Task AddAsync_EmailConflict_ThrowConflictException()
     {
         // Arrange
-        Customer expectedCustomer = base.Fixture.Create<Customer>();
-        expectedCustomer.Id = string.Empty;
-        await this._customerRepository.AddAsync(expectedCustomer);
+        Customer currentCustomer = base.Fixture.Create<Customer>();
+        currentCustomer.Id = string.Empty;
+        await _customerRepository.AddAsync(currentCustomer);
+
+        Customer expectedCustomer = new()
+        {
+            Id = string.Empty,
+            FullName = base.Fixture.Create<FullName>(),
+            BirthDate = base.Fixture.Create<BirthDate>(),
+            Email = currentCustomer.Email,
+            Notes = base.Fixture.Create<string>()
+        };
 
         // Act
-        Func<Task> act = () => this._customerRepository.AddAsync(expectedCustomer);
+        Func<Task> act = () => _customerRepository.AddAsync(expectedCustomer);
 
         // Assert
         ConflictException ex = (await act.Should().ThrowExactlyAsync<ConflictException>()).Which;
@@ -62,7 +66,7 @@ public sealed class CustomerRepositoryTest : BaseTest
         string id = $"{new ObjectId()}";
 
         // Act
-        Customer? customer = await this._customerRepository.GetByIdAsync(id);
+        Customer? customer = await _customerRepository.GetByIdAsync(id);
 
         // Assert
         customer.Should().BeNull();
@@ -75,16 +79,16 @@ public sealed class CustomerRepositoryTest : BaseTest
         Customer expectedCustomer = base.Fixture.Create<Customer>();
         expectedCustomer.Id = string.Empty;
 
-        await this._customerRepository.AddAsync(expectedCustomer);
+        await _customerRepository.AddAsync(expectedCustomer);
 
         expectedCustomer.FullName = base.Fixture.Create<FullName>();
         expectedCustomer.Notes = base.Fixture.Create<string>();
 
         // Act
-        await this._customerRepository.ReplaceAsync(expectedCustomer);
+        await _customerRepository.ReplaceAsync(expectedCustomer);
 
         // Assert
-        Customer? customer = await this._customerRepository.GetByIdAsync(expectedCustomer.Id);
+        Customer? customer = await _customerRepository.GetByIdAsync(expectedCustomer.Id);
         customer.Should().BeEquivalentTo(expectedCustomer);
     }
 
@@ -96,7 +100,7 @@ public sealed class CustomerRepositoryTest : BaseTest
         expectedCustomer.Id = $"{new ObjectId()}";
 
         // Act
-        Func<Task> act = () => this._customerRepository.ReplaceAsync(expectedCustomer);
+        Func<Task> act = () => _customerRepository.ReplaceAsync(expectedCustomer);
 
         // Assert
         (await act.Should().ThrowExactlyAsync<InvalidOperationException>())
@@ -110,13 +114,13 @@ public sealed class CustomerRepositoryTest : BaseTest
         Customer expectedCustomer = base.Fixture.Create<Customer>();
         expectedCustomer.Id = string.Empty;
 
-        await this._customerRepository.AddAsync(expectedCustomer);
+        await _customerRepository.AddAsync(expectedCustomer);
 
         // Act
-        await this._customerRepository.DeleteAsync(expectedCustomer.Id);
+        await _customerRepository.DeleteAsync(expectedCustomer.Id);
 
         // Assert
-        Customer? customer = await this._customerRepository.GetByIdAsync(expectedCustomer.Id);
+        Customer? customer = await _customerRepository.GetByIdAsync(expectedCustomer.Id);
         customer.Should().BeNull();
     }
 
@@ -127,7 +131,7 @@ public sealed class CustomerRepositoryTest : BaseTest
         string id = $"{new ObjectId()}";
 
         // Act
-        Func<Task> act = () => this._customerRepository.DeleteAsync(id);
+        Func<Task> act = () => _customerRepository.DeleteAsync(id);
 
         // Assert
         (await act.Should().ThrowExactlyAsync<InvalidOperationException>())

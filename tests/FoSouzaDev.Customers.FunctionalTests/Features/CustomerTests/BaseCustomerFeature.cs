@@ -7,7 +7,6 @@ using FoSouzaDev.Customers.Domain.ValueObjects;
 using FoSouzaDev.Customers.Infrastructure.Repositories;
 using FoSouzaDev.Customers.WebApi.Responses;
 using Microsoft.Extensions.Logging;
-using MongoDB.Driver;
 using Xunit.Gherkin.Quick;
 
 namespace FoSouzaDev.Customers.FunctionalTests.Features.CustomerTests;
@@ -24,10 +23,8 @@ public abstract class BaseCustomerFeature : BaseFeature
 
     protected BaseCustomerFeature(MongoDbFixture mongoDbFixture) : base(mongoDbFixture)
     {
-        MongoClient mongoClient = new(mongoDbFixture.MongoDbContainer.GetConnectionString());
-
         CustomerRepository = new CustomerRepository(
-            mongoClient.GetDatabase(base.DefaultConfiguration["MongoDbSettings:DatabaseName"]),
+            mongoDbFixture.MongoDatabase!,
             new LoggerFactory().CreateLogger<CustomerRepository>());
 
         base.Fixture.Customize<BirthDate>(a => a.FromFactory(() => new BirthDate(ValidBirthDate)));

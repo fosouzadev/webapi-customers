@@ -22,8 +22,8 @@ public sealed class ApiSettingsTest(MongoDbFixture mongoDbFixture)
         IConfiguration configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new List<KeyValuePair<string, string?>>
             {
-                new("MongoDbSettings:ConnectionURI", mongoDbFixture.MongoDbContainer.GetConnectionString()),
-                new("MongoDbSettings:DatabaseName", "testDb")
+                new("MongoDbSettings:ConnectionURI", mongoDbFixture.ConnectionString),
+                new("MongoDbSettings:DatabaseName", mongoDbFixture.DatabaseName)
             })
             .Build();
 
