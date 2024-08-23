@@ -15,13 +15,22 @@ public sealed class RegisterCustomerFeature(MongoDbFixture mongoDbFixture) : Bas
 {
     private AddCustomerDto? _customerDto;
 
-    [Given("I choose valid random data for a new client")]
+    [Given("I choose valid random data for a new customer")]
     public void GenerateValidCustomerData()
     {
         _customerDto = Fixture.Build<AddCustomerDto>()
             .With(a => a.BirthDate, ValidDataGenerator.ValidBirthDate)
             .With(a => a.Email, ValidDataGenerator.ValidEmail)
             .Create();
+    }
+
+    [Given("I choose valid random data for a new customer, but I choose an existing email address")]
+    public async Task GenerateValidCustomerDataWithExistingEmail()
+    {
+        GenerateValidCustomerData();
+
+        Customer currentCustomer = (Customer)_customerDto!;
+        await base.CustomerRepository.AddAsync(currentCustomer);
     }
 
     [Given("I choose the data for a new customer with an invalid (.*)")]
