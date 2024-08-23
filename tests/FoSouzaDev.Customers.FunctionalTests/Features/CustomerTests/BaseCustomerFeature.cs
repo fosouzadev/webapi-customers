@@ -17,8 +17,6 @@ public abstract class BaseCustomerFeature : BaseFeature
 
     protected ICustomerRepository CustomerRepository { get; private init; }
 
-    protected static DateTime ValidBirthDate => DateTime.Now.AddYears(-18).Date;
-    protected static string ValidEmail => "test@test.com";
     protected string? CustomerId { get; set; }
 
     protected BaseCustomerFeature(MongoDbFixture mongoDbFixture) : base(mongoDbFixture)
@@ -27,8 +25,8 @@ public abstract class BaseCustomerFeature : BaseFeature
             mongoDbFixture.MongoDatabase!,
             new LoggerFactory().CreateLogger<CustomerRepository>());
 
-        base.Fixture.Customize<BirthDate>(a => a.FromFactory(() => new BirthDate(ValidBirthDate)));
-        base.Fixture.Customize<Email>(a => a.FromFactory(() => new Email(ValidEmail)));
+        base.Fixture.Customize<BirthDate>(a => a.FromFactory(() => new BirthDate(ValidDataGenerator.ValidBirthDate)));
+        base.Fixture.Customize<Email>(a => a.FromFactory(() => new Email(ValidDataGenerator.ValidEmail)));
     }
 
     [Given("I choose a customer id: (.*)")]

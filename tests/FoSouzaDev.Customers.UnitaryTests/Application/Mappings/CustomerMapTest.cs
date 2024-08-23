@@ -13,13 +13,13 @@ public sealed class CustomerMapTest : BaseTest
     public CustomerMapTest()
     {
         Fixture.Customize<CustomerDto>(a => a
-            .With(b => b.BirthDate, ValidBirthDate)
-            .With(b => b.Email, ValidEmail)
+            .With(b => b.BirthDate, ValidDataGenerator.ValidBirthDate)
+            .With(b => b.Email, ValidDataGenerator.ValidEmail)
         );
 
         Fixture.Customize<AddCustomerDto>(a => a
-            .With(b => b.BirthDate, ValidBirthDate)
-            .With(b => b.Email, ValidEmail)
+            .With(b => b.BirthDate, ValidDataGenerator.ValidBirthDate)
+            .With(b => b.Email, ValidDataGenerator.ValidEmail)
         );
     }
 

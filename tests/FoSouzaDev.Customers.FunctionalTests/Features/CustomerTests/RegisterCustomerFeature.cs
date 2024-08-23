@@ -19,8 +19,8 @@ public sealed class RegisterCustomerFeature(MongoDbFixture mongoDbFixture) : Bas
     public void GenerateValidCustomerData()
     {
         _customerDto = Fixture.Build<AddCustomerDto>()
-            .With(a => a.BirthDate, ValidBirthDate)
-            .With(a => a.Email, ValidEmail)
+            .With(a => a.BirthDate, ValidDataGenerator.ValidBirthDate)
+            .With(a => a.Email, ValidDataGenerator.ValidEmail)
             .Create();
     }
 
@@ -30,8 +30,8 @@ public sealed class RegisterCustomerFeature(MongoDbFixture mongoDbFixture) : Bas
         _customerDto = Fixture.Build<AddCustomerDto>()
             .With(a => a.Name, invalidData == "name" ? string.Empty : base.Fixture.Create<string>())
             .With(a => a.LastName, invalidData == "last name" ? string.Empty : base.Fixture.Create<string>())
-            .With(a => a.BirthDate, invalidData == "date of birth" ? DateTime.Now.Date : ValidBirthDate)
-            .With(a => a.Email, invalidData == "email" ? string.Empty : ValidEmail)
+            .With(a => a.BirthDate, invalidData == "date of birth" ? DateTime.Now.Date : ValidDataGenerator.ValidBirthDate)
+            .With(a => a.Email, invalidData == "email" ? string.Empty : ValidDataGenerator.ValidEmail)
             .Create();
     }
 

@@ -44,7 +44,7 @@ public sealed class EmailTest : BaseTest
     public void Constructor_ObjectComparison_ShowEquality()
     {
         // Arrange
-        string email = ValidEmail;
+        string email = ValidDataGenerator.ValidEmail;
 
         Email email1 = new(email);
         Email email2 = new(email);

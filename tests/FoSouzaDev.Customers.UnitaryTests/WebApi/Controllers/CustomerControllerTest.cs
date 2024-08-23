@@ -20,8 +20,8 @@ public sealed class CustomerControllerTest : BaseTest
 
     public CustomerControllerTest()
     {
-        this._customerApplicationService = new();
-        this._customerController = new(this._customerApplicationService.Object);
+        _customerApplicationService = new();
+        _customerController = new(_customerApplicationService.Object);
     }
 
     [Fact]
@@ -31,10 +31,10 @@ public sealed class CustomerControllerTest : BaseTest
         AddCustomerDto request = base.Fixture.Create<AddCustomerDto>();
         string expectedId = base.Fixture.Create<string>();
 
-        this._customerApplicationService.Setup(a => a.AddAsync(request)).ReturnsAsync(expectedId);
+        _customerApplicationService.Setup(a => a.AddAsync(request)).ReturnsAsync(expectedId);
 
         // Act
-        IResult response = await this._customerController.AddAsync(request);
+        IResult response = await _customerController.AddAsync(request);
 
         // Assert
         response.Should().BeOfType<Created<ResponseData<string>>>()
@@ -50,10 +50,10 @@ public sealed class CustomerControllerTest : BaseTest
         string id = base.Fixture.Create<string>();
         CustomerDto expectedCustomer = base.Fixture.Create<CustomerDto>();
 
-        this._customerApplicationService.Setup(a => a.GetByIdAsync(id)).ReturnsAsync(expectedCustomer);
+        _customerApplicationService.Setup(a => a.GetByIdAsync(id)).ReturnsAsync(expectedCustomer);
 
         // Act
-        IResult response = await this._customerController.GetByIdAsync(id);
+        IResult response = await _customerController.GetByIdAsync(id);
 
         // Assert
         ResponseData<CustomerDto>? responseData = response.Should().BeOfType<Ok<ResponseData<CustomerDto>>>().Subject.Value;
@@ -71,7 +71,7 @@ public sealed class CustomerControllerTest : BaseTest
             .Create();
 
         // Act
-        IResult response = await this._customerController.EditAsync(id, request);
+        IResult response = await _customerController.EditAsync(id, request);
 
         // Assert
         response.Should().BeOfType<NoContent>();
@@ -84,7 +84,7 @@ public sealed class CustomerControllerTest : BaseTest
         string id = base.Fixture.Create<string>();
 
         // Act
-        IResult response = await this._customerController.DeleteAsync(id);
+        IResult response = await _customerController.DeleteAsync(id);
 
         // Assert
         response.Should().BeOfType<NoContent>();

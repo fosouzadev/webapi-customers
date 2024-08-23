@@ -13,7 +13,7 @@ public sealed record Email
         if (IsValidEmail(email) == false)
             throw new ValidateException("Invalid email.");
 
-        this.Value = email;
+        Value = email;
     }
 
     private static bool IsValidEmail(string email)

@@ -18,7 +18,7 @@ public sealed class ApplicationExceptionHandlerTest : BaseTest
 
     public ApplicationExceptionHandlerTest()
     {
-        this._applicationExceptionHandler = new(new Mock<ILogger<ApplicationExceptionHandler>>().Object);
+        _applicationExceptionHandler = new(new Mock<ILogger<ApplicationExceptionHandler>>().Object);
     }
 
     [Theory]
@@ -49,7 +49,7 @@ public sealed class ApplicationExceptionHandlerTest : BaseTest
         CancellationToken cancellationToken = CancellationToken.None;
 
         // Act
-        bool tryHandle = await this._applicationExceptionHandler.TryHandleAsync(httpContext, ex, cancellationToken);
+        bool tryHandle = await _applicationExceptionHandler.TryHandleAsync(httpContext, ex, cancellationToken);
 
         // Assert
         tryHandle.Should().BeTrue();

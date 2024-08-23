@@ -7,8 +7,8 @@ internal sealed class ResponseData<T>
         if (data == null && errorMessage == null)
             throw new ArgumentNullException(message: "Invalid data.", null);
 
-        this.Data = data;
-        this.ErrorMessage = errorMessage;
+        Data = data;
+        ErrorMessage = errorMessage;
     }
 
     public T? Data { get; private init; }

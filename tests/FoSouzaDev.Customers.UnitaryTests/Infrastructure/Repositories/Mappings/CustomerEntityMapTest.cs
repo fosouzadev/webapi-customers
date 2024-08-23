@@ -12,8 +12,8 @@ public sealed class CustomerEntityMapTest : BaseTest
     public CustomerEntityMapTest()
     {
         base.Fixture.Customize<CustomerEntity>(a => a
-            .With(b => b.BirthDate, ValidBirthDate)
-            .With(b => b.Email, ValidEmail)
+            .With(b => b.BirthDate, ValidDataGenerator.ValidBirthDate)
+            .With(b => b.Email, ValidDataGenerator.ValidEmail)
         );
     }
 

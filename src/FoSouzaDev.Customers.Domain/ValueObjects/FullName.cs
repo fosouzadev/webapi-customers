@@ -15,7 +15,7 @@ public sealed record FullName
         if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 3)
             throw new ValidateException("Invalid last name.");
 
-        this.Name = name;
-        this.LastName = lastName;
+        Name = name;
+        LastName = lastName;
     }
 }

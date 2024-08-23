@@ -18,7 +18,7 @@ internal sealed class CustomerRepository(IMongoDatabase mongoDatabase, ILogger<C
 
         try
         {
-            await this._collection.InsertOneAsync(customerEntity);
+            await _collection.InsertOneAsync(customerEntity);
         }
         catch (MongoWriteException ex) when (ex.Message.Contains("E11000 duplicate key error collection"))
         {
@@ -32,7 +32,7 @@ internal sealed class CustomerRepository(IMongoDatabase mongoDatabase, ILogger<C
     public async Task<Customer?> GetByIdAsync(string id)
     {
         var filter = Builders<CustomerEntity>.Filter.Eq(a => a.Id, id);
-        CustomerEntity? customerEntity = (await this._collection.FindAsync(filter)).FirstOrDefault();
+        CustomerEntity? customerEntity = (await _collection.FindAsync(filter)).FirstOrDefault();
 
         return (Customer?)customerEntity;
     }
@@ -42,7 +42,7 @@ internal sealed class CustomerRepository(IMongoDatabase mongoDatabase, ILogger<C
         CustomerEntity customerEntity = (CustomerEntity)customer;
 
         var filter = Builders<CustomerEntity>.Filter.Eq(a => a.Id, customerEntity.Id);
-        ReplaceOneResult result = await this._collection.ReplaceOneAsync(filter, customerEntity);
+        ReplaceOneResult result = await _collection.ReplaceOneAsync(filter, customerEntity);
 
         if (result.ModifiedCount != 1)
             throw new InvalidOperationException($"It was not possible to replace the customer with id: {customerEntity.Id}");
@@ -51,7 +51,7 @@ internal sealed class CustomerRepository(IMongoDatabase mongoDatabase, ILogger<C
     public async Task DeleteAsync(string id)
     {
         var filter = Builders<CustomerEntity>.Filter.Eq(a => a.Id, id);
-        DeleteResult result = await this._collection.DeleteOneAsync(filter);
+        DeleteResult result = await _collection.DeleteOneAsync(filter);
 
         if (result.DeletedCount != 1)
             throw new InvalidOperationException($"It was not possible to delete the customer with id: {id}");

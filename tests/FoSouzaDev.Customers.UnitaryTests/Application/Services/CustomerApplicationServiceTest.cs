@@ -21,9 +21,9 @@ public sealed class CustomerApplicationServiceTest : BaseTest
 
     public CustomerApplicationServiceTest()
     {
-        this._customerRepositoryMock = new();
+        _customerRepositoryMock = new();
 
-        this._customerApplicationService = new CustomerApplicationService(this._customerRepositoryMock.Object);
+        _customerApplicationService = new CustomerApplicationService(_customerRepositoryMock.Object);
     }
 
     [Fact]
@@ -31,17 +31,17 @@ public sealed class CustomerApplicationServiceTest : BaseTest
     {
         // Arrange
         AddCustomerDto customer = base.Fixture.Build<AddCustomerDto>()
-            .With(a => a.BirthDate, ValidBirthDate)
-            .With(a => a.Email, ValidEmail)
+            .With(a => a.BirthDate, ValidDataGenerator.ValidBirthDate)
+            .With(a => a.Email, ValidDataGenerator.ValidEmail)
             .Create();
 
         // Act
-        string id = await this._customerApplicationService.AddAsync(customer);
+        string id = await _customerApplicationService.AddAsync(customer);
 
         // Assert
         id.Should().Be(string.Empty);
 
-        this._customerRepositoryMock.Verify(a => a.AddAsync(It.Is<Customer>(b =>
+        _customerRepositoryMock.Verify(a => a.AddAsync(It.Is<Customer>(b =>
             b.FullName.Name == customer.Name &&
             b.FullName.LastName == customer.LastName &&
             b.BirthDate.Date == customer.BirthDate &&
@@ -57,7 +57,7 @@ public sealed class CustomerApplicationServiceTest : BaseTest
         Customer expectedCustomer = MockGetById(id);
 
         // Act
-        CustomerDto customer = await this._customerApplicationService.GetByIdAsync(id);
+        CustomerDto customer = await _customerApplicationService.GetByIdAsync(id);
 
         // Assert
         customer.Should().Be((CustomerDto)expectedCustomer);
@@ -70,7 +70,7 @@ public sealed class CustomerApplicationServiceTest : BaseTest
         string id = base.Fixture.Create<string>();
 
         // Act
-        Func<Task> act = () => this._customerApplicationService.GetByIdAsync(id);
+        Func<Task> act = () => _customerApplicationService.GetByIdAsync(id);
 
         // Assert
         await act.Should().ThrowExactlyAsync<NotFoundException>();
@@ -102,12 +102,12 @@ public sealed class CustomerApplicationServiceTest : BaseTest
         expectedCustomer.Notes = editCustomer.Notes;
 
         // Act
-        Func<Task> act = () => this._customerApplicationService.EditAsync(id, pathDocument);
+        Func<Task> act = () => _customerApplicationService.EditAsync(id, pathDocument);
 
         // Assert
         await act.Should().NotThrowAsync();
 
-        this._customerRepositoryMock.Verify(a => a.ReplaceAsync(It.Is<Customer>(b =>
+        _customerRepositoryMock.Verify(a => a.ReplaceAsync(It.Is<Customer>(b =>
             b.FullName == expectedCustomer.FullName &&
             b.BirthDate == expectedCustomer.BirthDate &&
             b.Email == expectedCustomer.Email &&
@@ -124,7 +124,7 @@ public sealed class CustomerApplicationServiceTest : BaseTest
             .Create();
 
         // Act
-        Func<Task> act = () => this._customerApplicationService.EditAsync(id, customer);
+        Func<Task> act = () => _customerApplicationService.EditAsync(id, customer);
 
         // Assert
         await act.Should().ThrowExactlyAsync<NotFoundException>();
@@ -138,12 +138,12 @@ public sealed class CustomerApplicationServiceTest : BaseTest
         _ = MockGetById(id);
 
         // Act
-        Func<Task> act = () => this._customerApplicationService.DeleteAsync(id);
+        Func<Task> act = () => _customerApplicationService.DeleteAsync(id);
 
         // Assert
         await act.Should().NotThrowAsync();
 
-        this._customerRepositoryMock.Verify(a => a.DeleteAsync(id), Times.Once);
+        _customerRepositoryMock.Verify(a => a.DeleteAsync(id), Times.Once);
     }
 
     [Fact]
@@ -153,7 +153,7 @@ public sealed class CustomerApplicationServiceTest : BaseTest
         string id = base.Fixture.Create<string>();
 
         // Act
-        Func<Task> act = () => this._customerApplicationService.DeleteAsync(id);
+        Func<Task> act = () => _customerApplicationService.DeleteAsync(id);
 
         // Assert
         await act.Should().ThrowExactlyAsync<NotFoundException>();
@@ -163,7 +163,7 @@ public sealed class CustomerApplicationServiceTest : BaseTest
     {
         Customer expectedCustomer = base.Fixture.Create<Customer>();
 
-        this._customerRepositoryMock.Setup(a => a.GetByIdAsync(id)).ReturnsAsync(expectedCustomer);
+        _customerRepositoryMock.Setup(a => a.GetByIdAsync(id)).ReturnsAsync(expectedCustomer);
 
         return expectedCustomer;
     }
