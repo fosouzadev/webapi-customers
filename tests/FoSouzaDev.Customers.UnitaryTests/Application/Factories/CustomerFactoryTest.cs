@@ -8,9 +8,9 @@ using FoSouzaDev.Customers.Domain.ValueObjects;
 
 namespace FoSouzaDev.Customers.UnitaryTests.Application.Mappings;
 
-public sealed class CustomerMapTest : BaseTest
+public sealed class CustomerFactoryTest : BaseTest
 {
-    public CustomerMapTest()
+    public CustomerFactoryTest()
     {
         Fixture.Customize<CustomerDto>(a => a
             .With(b => b.BirthDate, ValidDataGenerator.ValidBirthDate)
@@ -38,7 +38,7 @@ public sealed class CustomerMapTest : BaseTest
         };
 
         // Act
-        Customer customer = CustomerMap.CustomerDtoToCustomer(customerDto);
+        Customer customer = CustomerFactory.CustomerDtoToCustomer(customerDto);
 
         // Assert
         customer.Should().BeEquivalentTo(expectedCustomer);
@@ -60,7 +60,7 @@ public sealed class CustomerMapTest : BaseTest
         };
 
         // Act
-        CustomerDto customerDto = CustomerMap.CustomerToCustomerDto(customer);
+        CustomerDto customerDto = CustomerFactory.CustomerToCustomerDto(customer);
 
         // Assert
         customerDto.Should().BeEquivalentTo(expectedCustomerDto);
@@ -81,7 +81,7 @@ public sealed class CustomerMapTest : BaseTest
         };
 
         // Act
-        Customer customer = CustomerMap.AddCustomerDtoToCustomer(addCustomerDto);
+        Customer customer = CustomerFactory.AddCustomerDtoToCustomer(addCustomerDto);
 
         // Assert
         customer.Should().BeEquivalentTo(expectedCustomer);
@@ -100,7 +100,7 @@ public sealed class CustomerMapTest : BaseTest
         };
 
         // Act
-        EditCustomerDto editCustomerDto = CustomerMap.CustomerToEditCustomerDto(customer);
+        EditCustomerDto editCustomerDto = CustomerFactory.CustomerToEditCustomerDto(customer);
 
         // Assert
         editCustomerDto.Should().BeEquivalentTo(expectedEditCustomerDto);

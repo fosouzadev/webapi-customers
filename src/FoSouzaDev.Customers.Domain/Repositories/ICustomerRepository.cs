@@ -1,6 +1,6 @@
 ﻿using FoSouzaDev.Customers.Domain.Entities;
 
-namespace FoSouzaDev.Customers.Application.Infrastructure.Repositories;
+namespace FoSouzaDev.Customers.Domain.Repositories;
 
 public interface ICustomerRepository
 {

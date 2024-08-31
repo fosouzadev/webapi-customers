@@ -7,9 +7,9 @@ using FoSouzaDev.Customers.Infrastructure.Repositories.Mappings;
 
 namespace FoSouzaDev.Customers.UnitaryTests.Infrastructure.Repositories.Mappings;
 
-public sealed class CustomerEntityMapTest : BaseTest
+public sealed class CustomerEntityFactoryTest : BaseTest
 {
-    public CustomerEntityMapTest()
+    public CustomerEntityFactoryTest()
     {
         base.Fixture.Customize<CustomerEntity>(a => a
             .With(b => b.BirthDate, ValidDataGenerator.ValidBirthDate)
@@ -25,7 +25,7 @@ public sealed class CustomerEntityMapTest : BaseTest
         CustomerEntity expectedCustomerEntity = (CustomerEntity)customer;
 
         // Act
-        CustomerEntity customerEntity = CustomerEntityMap.CustomerToCustomerEntity(customer);
+        CustomerEntity customerEntity = CustomerEntityFactory.CustomerToCustomerEntity(customer);
 
         // Assert
         customerEntity.Should().BeEquivalentTo(expectedCustomerEntity);
@@ -39,7 +39,7 @@ public sealed class CustomerEntityMapTest : BaseTest
         Customer expectedCustomer = (Customer)customerEntity!;
 
         // Act
-        Customer customer = CustomerEntityMap.CustomerEntityToCustomer(customerEntity)!;
+        Customer customer = CustomerEntityFactory.CustomerEntityToCustomer(customerEntity)!;
 
         // Assert
         customer.Should().BeEquivalentTo(expectedCustomer);
@@ -53,7 +53,7 @@ public sealed class CustomerEntityMapTest : BaseTest
         Customer? expectedCustomer = default;
 
         // Act
-        Customer? customer = CustomerEntityMap.CustomerEntityToCustomer(customerEntity);
+        Customer? customer = CustomerEntityFactory.CustomerEntityToCustomer(customerEntity);
 
         // Assert
         customer.Should().BeEquivalentTo(expectedCustomer);

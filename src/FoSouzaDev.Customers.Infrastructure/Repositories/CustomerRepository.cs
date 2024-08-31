@@ -1,6 +1,6 @@
-﻿using FoSouzaDev.Customers.Application.Infrastructure.Repositories;
-using FoSouzaDev.Customers.Domain.Entities;
+﻿using FoSouzaDev.Customers.Domain.Entities;
 using FoSouzaDev.Customers.Domain.Exceptions;
+using FoSouzaDev.Customers.Domain.Repositories;
 using FoSouzaDev.Customers.Infrastructure.Repositories.Entities;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;

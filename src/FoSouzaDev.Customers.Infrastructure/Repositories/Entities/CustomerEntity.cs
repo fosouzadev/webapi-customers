@@ -29,8 +29,8 @@ internal sealed class CustomerEntity
     public string? Notes { get; set; }
 
     public static explicit operator CustomerEntity(Customer customer) =>
-        CustomerEntityMap.CustomerToCustomerEntity(customer);
+        CustomerEntityFactory.CustomerToCustomerEntity(customer);
 
     public static explicit operator Customer?(CustomerEntity? customerEntity) =>
-        CustomerEntityMap.CustomerEntityToCustomer(customerEntity);
+        CustomerEntityFactory.CustomerEntityToCustomer(customerEntity);
 }

@@ -4,7 +4,7 @@ using FoSouzaDev.Customers.Domain.ValueObjects;
 
 namespace FoSouzaDev.Customers.Application.Mappings;
 
-internal static class CustomerMap
+internal static class CustomerFactory
 {
     public static Customer CustomerDtoToCustomer(CustomerDto customerDto) => new()
     {

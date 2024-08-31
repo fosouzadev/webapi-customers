@@ -12,5 +12,5 @@ public sealed record AddCustomerDto
     public string? Notes { get; init; }
 
     public static explicit operator Customer(AddCustomerDto addCustomerDto) =>
-        CustomerMap.AddCustomerDtoToCustomer(addCustomerDto);
+        CustomerFactory.AddCustomerDtoToCustomer(addCustomerDto);
 }

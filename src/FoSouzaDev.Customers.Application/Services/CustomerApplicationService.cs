@@ -1,7 +1,7 @@
 ﻿using FoSouzaDev.Customers.Application.DataTransferObjects;
-using FoSouzaDev.Customers.Application.Infrastructure.Repositories;
 using FoSouzaDev.Customers.Domain.Entities;
 using FoSouzaDev.Customers.Domain.Exceptions;
+using FoSouzaDev.Customers.Domain.Repositories;
 using FoSouzaDev.Customers.Domain.ValueObjects;
 using Microsoft.AspNetCore.JsonPatch;
 

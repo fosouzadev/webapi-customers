@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using FoSouzaDev.Customers.Application.Infrastructure.Repositories;
 using FoSouzaDev.Customers.Application.Services;
 using FoSouzaDev.Customers.CommonTests;
+using FoSouzaDev.Customers.Domain.Repositories;
 using FoSouzaDev.Customers.Infrastructure.Repositories.Settings;
 using FoSouzaDev.Customers.WebApi.Settings;
 using Microsoft.Extensions.Configuration;

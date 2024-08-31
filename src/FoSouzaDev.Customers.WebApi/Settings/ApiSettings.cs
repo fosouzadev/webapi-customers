@@ -1,5 +1,5 @@
-﻿using FoSouzaDev.Customers.Application.Infrastructure.Repositories;
-using FoSouzaDev.Customers.Application.Services;
+﻿using FoSouzaDev.Customers.Application.Services;
+using FoSouzaDev.Customers.Domain.Repositories;
 using FoSouzaDev.Customers.Infrastructure.Repositories;
 using FoSouzaDev.Customers.Infrastructure.Repositories.Settings;
 using Microsoft.Extensions.Diagnostics.HealthChecks;

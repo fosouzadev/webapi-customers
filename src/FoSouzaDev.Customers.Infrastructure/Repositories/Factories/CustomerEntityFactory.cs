@@ -4,7 +4,7 @@ using FoSouzaDev.Customers.Infrastructure.Repositories.Entities;
 
 namespace FoSouzaDev.Customers.Infrastructure.Repositories.Mappings;
 
-internal static class CustomerEntityMap
+internal static class CustomerEntityFactory
 {
     public static CustomerEntity CustomerToCustomerEntity(Customer customer) => new()
     {
