@@ -12,9 +12,6 @@ public sealed record CustomerDto
     public required string Email { get; init; }
     public string? Notes { get; init; }
 
-    public static explicit operator Customer(CustomerDto customerDto) =>
-        CustomerFactory.CustomerDtoToCustomer(customerDto);
-
     public static explicit operator CustomerDto(Customer customer) =>
         CustomerFactory.CustomerToCustomerDto(customer);
 }

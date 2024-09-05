@@ -24,27 +24,6 @@ public sealed class CustomerFactoryTest : BaseTest
     }
 
     [Fact]
-    public void CustomerDtoToCustomer_Success_ReturnExpectedObject()
-    {
-        // Arrange
-        CustomerDto customerDto = Fixture.Create<CustomerDto>();
-        Customer expectedCustomer = new()
-        {
-            Id = customerDto.Id,
-            FullName = new FullName(customerDto.Name, customerDto.LastName),
-            BirthDate = new BirthDate(customerDto.BirthDate),
-            Email = new Email(customerDto.Email),
-            Notes = customerDto.Notes
-        };
-
-        // Act
-        Customer customer = CustomerFactory.CustomerDtoToCustomer(customerDto);
-
-        // Assert
-        customer.Should().BeEquivalentTo(expectedCustomer);
-    }
-
-    [Fact]
     public void CustomerToCustomerDto_Success_ReturnExpectedObject()
     {
         // Arrange

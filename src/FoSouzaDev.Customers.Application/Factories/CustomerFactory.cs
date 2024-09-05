@@ -6,15 +6,6 @@ namespace FoSouzaDev.Customers.Application.Mappings;
 
 internal static class CustomerFactory
 {
-    public static Customer CustomerDtoToCustomer(CustomerDto customerDto) => new()
-    {
-        Id = customerDto.Id,
-        FullName = new FullName(customerDto.Name, customerDto.LastName),
-        BirthDate = new BirthDate(customerDto.BirthDate),
-        Email = new Email(customerDto.Email),
-        Notes = customerDto.Notes
-    };
-
     public static CustomerDto CustomerToCustomerDto(Customer customer) => new()
     {
         Id = customer.Id,
