@@ -1,1 +1,1 @@
-arquivo de teste 2
+[ "repo1", "repo2", "repo3" ]
