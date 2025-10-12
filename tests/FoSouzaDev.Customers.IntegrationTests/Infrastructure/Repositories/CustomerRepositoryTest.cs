@@ -24,7 +24,7 @@ public sealed class CustomerRepositoryTest(MongoDbFixture mongoDbFixture) : Base
     public async Task AddAsync_Success_SetNewId()
     {
         // Arrange
-        Customer expectedCustomer  = Fixture.Create<Customer>();
+        Customer expectedCustomer = Fixture.Create<Customer>();
         expectedCustomer.Id = string.Empty;
 
         // Act

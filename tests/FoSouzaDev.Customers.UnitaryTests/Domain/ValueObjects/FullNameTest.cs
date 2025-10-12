@@ -69,7 +69,7 @@ public sealed class FullNameTest : BaseTest
 
         // Act
         bool equals = fullName1 == fullName2;
-        
+
         // Assert
         equals.Should().BeTrue();
     }

@@ -1,6 +1,6 @@
-﻿using FoSouzaDev.Customers.Domain.Exceptions;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
+using FoSouzaDev.Customers.Domain.Exceptions;
 
 namespace FoSouzaDev.Customers.Domain.ValueObjects;
 

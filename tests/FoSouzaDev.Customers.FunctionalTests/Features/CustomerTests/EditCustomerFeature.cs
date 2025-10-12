@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Text;
+using FluentAssertions;
 using FoSouzaDev.Customers.Application.DataTransferObjects;
 using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Entities;
@@ -6,7 +7,6 @@ using Gherkin.Ast;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 using Newtonsoft.Json;
-using System.Text;
 using Xunit.Gherkin.Quick;
 
 namespace FoSouzaDev.Customers.FunctionalTests.Features.CustomerTests;

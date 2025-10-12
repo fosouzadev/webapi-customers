@@ -1,9 +1,9 @@
-﻿using FoSouzaDev.Customers.Application.DataTransferObjects;
+﻿using System.Net.Mime;
+using FoSouzaDev.Customers.Application.DataTransferObjects;
 using FoSouzaDev.Customers.Application.Services;
 using FoSouzaDev.Customers.WebApi.Responses;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Mime;
 
 namespace FoSouzaDev.Customers.WebApi.Controllers;
 

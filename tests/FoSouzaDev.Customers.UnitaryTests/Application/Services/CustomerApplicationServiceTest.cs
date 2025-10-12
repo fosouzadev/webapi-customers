@@ -7,7 +7,6 @@ using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Entities;
 using FoSouzaDev.Customers.Domain.Exceptions;
 using FoSouzaDev.Customers.Domain.Repositories;
-using FoSouzaDev.Customers.Domain.ValueObjects;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 using Moq;
@@ -18,7 +17,7 @@ public sealed class CustomerApplicationServiceTest : BaseTest
 {
     private readonly Mock<ICustomerRepository> _repositoryMock;
     private readonly Mock<ICustomerFactory> _factoryMock;
-    
+
     private readonly ICustomerApplicationService _applicationService;
 
     public CustomerApplicationServiceTest()
@@ -39,7 +38,7 @@ public sealed class CustomerApplicationServiceTest : BaseTest
 
         return expectedCustomer;
     }
-    
+
     [Fact]
     public async Task AddAsync_Success_ReturnId()
     {
@@ -66,23 +65,23 @@ public sealed class CustomerApplicationServiceTest : BaseTest
         string id = Fixture.Create<string>();
         Customer expectedCustomer = MockGetById(id);
         CustomerDto expectedCustomerDto = Fixture.Create<CustomerDto>();
-        
+
         _factoryMock.Setup(a => a.CustomerToCustomerDto(expectedCustomer))
             .Returns(expectedCustomerDto);
-        
+
         // Act
         CustomerDto customer = await _applicationService.GetByIdAsync(id);
 
         // Assert
         customer.Should().Be(expectedCustomerDto);
     }
-    
+
     [Fact]
     public async Task GetByIdAsync_NotFound_ThrowNotFoundException()
     {
         // Arrange
         string id = Fixture.Create<string>();
-        
+
         // Act
         Func<Task> act = () => _applicationService.GetByIdAsync(id);
 
@@ -102,10 +101,10 @@ public sealed class CustomerApplicationServiceTest : BaseTest
         string id = Fixture.Create<string>();
         Customer expectedCustomer = MockGetById(id);
         EditCustomerDto editCustomerDto = Fixture.Create<EditCustomerDto>();
-        
+
         _factoryMock.Setup(a => a.CustomerToEditCustomerDto(expectedCustomer))
             .Returns(editCustomerDto);
-        
+
         JsonPatchDocument<EditCustomerDto> pathDocument = new();
         pathDocument.Operations.Add(new Operation<EditCustomerDto>
         {
@@ -119,11 +118,11 @@ public sealed class CustomerApplicationServiceTest : BaseTest
 
         // Assert
         await act.Should().NotThrowAsync();
-        
+
         expectedCustomer.FullName.Name.Should().Be(editCustomerDto.Name);
         expectedCustomer.FullName.LastName.Should().Be(editCustomerDto.LastName);
         expectedCustomer.Notes.Should().Be(editCustomerDto.Notes);
-        
+
         _repositoryMock.Verify(a => a.ReplaceAsync(expectedCustomer), Times.Once);
     }
 

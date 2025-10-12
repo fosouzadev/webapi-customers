@@ -73,7 +73,7 @@ public sealed class RegisterCustomerFeature(MongoDbFixture mongoDbFixture) : Bas
 
         Customer expectedCustomer = ApplicationFactory.AddCustomerDtoToCustomer(_customerDto);
         expectedCustomer.Id = CustomerId;
-        
+
         customer.Should().BeEquivalentTo(expectedCustomer);
     }
 }

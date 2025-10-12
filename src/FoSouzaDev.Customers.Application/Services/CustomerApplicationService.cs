@@ -14,7 +14,7 @@ internal sealed class CustomerApplicationService(
 {
     private async Task<Customer> GetByIdOrThrowAsync(string id) =>
         (await repository.GetByIdAsync(id)) ?? throw new NotFoundException(id);
-    
+
     public async Task<string> AddAsync(AddCustomerDto customer)
     {
         Customer entity = factory.AddCustomerDtoToCustomer(customer);
@@ -32,7 +32,7 @@ internal sealed class CustomerApplicationService(
     public async Task EditAsync(string id, JsonPatchDocument<EditCustomerDto> pathDocument)
     {
         Customer entity = await GetByIdOrThrowAsync(id);
-        
+
         EditCustomerDto editCustomer = factory.CustomerToEditCustomerDto(entity);
         pathDocument.ApplyTo(editCustomer);
 

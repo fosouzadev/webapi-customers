@@ -11,11 +11,11 @@ namespace FoSouzaDev.Customers.UnitaryTests.Application.Factories;
 public sealed class CustomerFactoryTest : BaseTest
 {
     private readonly ICustomerFactory _factory;
-    
+
     public CustomerFactoryTest()
     {
         _factory = new CustomerFactory();
-        
+
         Fixture.Customize<CustomerDto>(a => a
             .With(b => b.BirthDate, ValidDataGenerator.ValidBirthDate)
             .With(b => b.Email, ValidDataGenerator.ValidEmail)

@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System.Text;
+using AutoFixture;
 using FluentAssertions;
 using FoSouzaDev.Customers.CommonTests;
 using FoSouzaDev.Customers.Domain.Exceptions;
@@ -8,7 +9,6 @@ using HttpContextMoq.Extensions;
 using Microsoft.AspNetCore.JsonPatch.Exceptions;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Text;
 
 namespace FoSouzaDev.Customers.UnitaryTests.WebApi;
 

@@ -29,7 +29,7 @@ public abstract class BaseCustomerFeature : BaseFeature
             new CustomerEntityFactory());
 
         ApplicationFactory = new CustomerFactory();
-        
+
         Fixture.Customize<BirthDate>(a => a.FromFactory(() => new BirthDate(ValidDataGenerator.ValidBirthDate)));
         Fixture.Customize<Email>(a => a.FromFactory(() => new Email(ValidDataGenerator.ValidEmail)));
     }

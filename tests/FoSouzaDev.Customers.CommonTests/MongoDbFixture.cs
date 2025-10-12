@@ -17,7 +17,7 @@ public sealed class MongoDbFixture : IAsyncLifetime
     public async Task InitializeAsync()
     {
         await _mongoDbContainer.StartAsync();
-        
+
         ConnectionString = _mongoDbContainer.GetConnectionString();
         MongoDatabase = new MongoClient(ConnectionString).GetDatabase(DatabaseName);
 

@@ -1,5 +1,5 @@
-﻿using AutoFixture;
-using System.Net.Mail;
+﻿using System.Net.Mail;
+using AutoFixture;
 
 namespace FoSouzaDev.Customers.CommonTests
 {

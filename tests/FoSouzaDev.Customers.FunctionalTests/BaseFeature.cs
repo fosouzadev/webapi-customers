@@ -37,7 +37,7 @@ public abstract class BaseFeature : Feature, IDisposable
     {
         HttpResponse.StatusCode.Should().Be((HttpStatusCode)httpStatusCode);
     }
-    
+
     protected void StartApplication()
     {
         HttpClient = new WebApiFactory(DefaultConfiguration).CreateClient();

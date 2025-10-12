@@ -11,11 +11,11 @@ namespace FoSouzaDev.Customers.UnitaryTests.Infrastructure.Repositories.Mappings
 public sealed class CustomerEntityFactoryTest : BaseTest
 {
     private readonly ICustomerEntityFactory _factory;
-    
+
     public CustomerEntityFactoryTest()
     {
         _factory = new CustomerEntityFactory();
-        
+
         Fixture.Customize<CustomerEntity>(a => a
             .With(b => b.BirthDate, ValidDataGenerator.ValidBirthDate)
             .With(b => b.Email, ValidDataGenerator.ValidEmail)

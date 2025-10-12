@@ -15,7 +15,7 @@ public static class ApiSettings
     public static void AddApiServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<MongoDbSettings>(configuration.GetSection(nameof(MongoDbSettings)));
-        
+
         services.AddSingleton<ICustomerFactory, CustomerFactory>();
         services.AddSingleton<ICustomerEntityFactory, CustomerEntityFactory>();
         services.AddSingleton<ICustomerRepository, CustomerRepository>();

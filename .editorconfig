@@ -36,7 +36,7 @@ dotnet_style_qualification_for_method = false:suggestion
 dotnet_style_qualification_for_event = false:suggestion
 
 # name all constant fields using PascalCase
-dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
+#dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
 dotnet_naming_rule.constant_fields_should_be_pascal_case.style    = pascal_case_style
 dotnet_naming_symbols.constant_fields.applicable_kinds   = field
